@@ -1,4 +1,5 @@
 #include "component.h"
+#include <QDebug>
 
 Component::Component()
     : number(0)
@@ -10,7 +11,7 @@ Component::Component()
 
 void Component::addPin(qreal x, qreal y, qreal radius)
 {
-    QRectF r = QRectF(QPointF(x,y), QSizeF(radius*2, radius*2));
+    QRectF r = QRectF(QPointF(x+offsetx,y+offsety), QSizeF(radius*2, radius*2));
     circles.append(r);
 }
 

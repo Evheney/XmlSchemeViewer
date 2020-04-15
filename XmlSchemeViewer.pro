@@ -25,23 +25,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        board.cpp \
         component.cpp \
+        epmxrayinfo.cpp \
+        footprints.cpp \
         main.cpp \
         parser.cpp \
+        pd.cpp \
         rect.cpp \
         scene.cpp \
         scheme.cpp \
         view.cpp \
-        widget.cpp
+        widget.cpp \
+        xmlboardreader.cpp
 
 HEADERS += \
+        board.h \
+        board_info.h \
         component.h \
+        epmxrayinfo.h \
+        footprints.h \
         parser.h \
+        pd.h \
         rect.h \
         scene.h \
         scheme.h \
         view.h \
-        widget.h
+        widget.h \
+        xmlboardreader.h
 
 FORMS += \
         widget.ui

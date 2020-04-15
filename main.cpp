@@ -1,6 +1,7 @@
 #include "parser.h"
 #include "scheme.h"
 #include "widget.h"
+#include "xmlboardreader.h"
 
 #include <QDebug>
 #include <QFile>
@@ -29,8 +30,9 @@ int main(int argc, char *argv[])
     }
 
     Scheme scheme;
-    Parser parser(&scheme);
+    XmlBoardReader parser(&scheme);
     parser.read(&file);
+    parser.print();
 
     Widget w;
     w.show();

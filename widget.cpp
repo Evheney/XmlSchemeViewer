@@ -14,13 +14,10 @@ Widget::Widget(QWidget *parent) :
 
     m_scene = new QGraphicsScene(this);
 
-    m_scene->setBackgroundBrush(QBrush(QColor(Qt::yellow)));
+    //m_scene->setBackgroundBrush(QBrush(QColor(Qt::yellow)));
     m_scene->setSceneRect(-400,-400,800,800);
     m_scene->addLine(0,-400,0,400);
     m_scene->addLine(-400,0,400,0);
-
-    //QGraphicsRectItem * rectItem2 = scene->addRect(10,10,400,400);
-
 
     QGraphicsView * view = new QGraphicsView(this);
     view -> setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -50,7 +47,9 @@ void Widget::drawComponent(const Component& component)
     QPointF pt = component.getPoint();
     QSizeF sz = component.getSize();
 
-    QGraphicsRectItem *rectItem = m_scene->addRect(pt.x(),pt.y(),sz.width(),sz.height(), QPen(QBrush(QColor(Qt::green)), 5));
+    QGraphicsRectItem *rectItem = m_scene->addRect(
+                pt.x(),pt.y(),sz.width(),sz.height(),
+                QPen(Qt::NoPen),QBrush(QColor(0, 0, 255, 32), Qt::SolidPattern));
 
     int ee = QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsMovable;
     qDebug() << ee;
@@ -63,9 +62,5 @@ void Widget::drawComponent(const Component& component)
         QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r);
         ellipseItem->setParentItem(rectItem);
     }
-    //QGraphicsEllipseItem * ellipseItem = scene->addEllipse(20,20, 20,20);
-    //ellipseItem->setParentItem(rectItem);
-    //QGraphicsEllipseItem * ellipseItem2 = scene->addEllipse(50,20, 20,20);
-    //ellipseItem2->setParentItem(rectItem);
 }
 

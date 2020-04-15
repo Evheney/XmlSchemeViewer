@@ -19,7 +19,9 @@ public:
     void setSize(qreal sx, qreal sy) {
         size.setWidth(sx);
         size.setHeight(sy);
+        calcOffset();
     }
+
     void addPin(qreal x, qreal y, qreal radius);
 
     QPointF getPoint() const;
@@ -35,6 +37,15 @@ protected:
     QSizeF size;
     //QRectF rect;
     QList<QRectF> circles;
+
+    void calcOffset() {
+        offsetx = size.width() / 2.;
+        offsety = size.height() / 2.;
+    }
+
+private:
+    double offsetx;
+    double offsety;
 };
 
 #endif // COMPONENT_H

@@ -8,7 +8,10 @@ class Parser
 {
 public:
     Parser(Scheme *sch);
-    bool read(QIODevice *device);
+    virtual ~Parser();
+    virtual void print();
+
+    virtual bool read(QIODevice *device);
 
 protected:
     Scheme *scheme;

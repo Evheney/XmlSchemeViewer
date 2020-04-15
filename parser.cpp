@@ -6,6 +6,16 @@ Parser::Parser(Scheme *sch)
 
 }
 
+Parser::~Parser()
+{
+    scheme = nullptr;
+}
+
+void Parser::print()
+{
+    scheme->print();
+}
+
 bool Parser::read(QIODevice *device)
 {
     Q_UNUSED(device)
