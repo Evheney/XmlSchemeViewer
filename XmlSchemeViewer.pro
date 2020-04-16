@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         board.cpp \
         component.cpp \
+        componentdata.cpp \
         epmxrayinfo.cpp \
         footprints.cpp \
         main.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
         board.h \
         board_info.h \
         component.h \
+        componentdata.h \
         epmxrayinfo.h \
         footprints.h \
         parser.h \

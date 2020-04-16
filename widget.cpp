@@ -22,6 +22,7 @@ Widget::Widget(QWidget *parent) :
     QGraphicsView * view = new QGraphicsView(this);
     view -> setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     view ->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    view->scale(2,2);
 
     view->setScene(m_scene);
 
