@@ -29,3 +29,13 @@ QRectF Component::getCircle(int index) const
 {
     return circles.at(index);
 }
+
+void Component::setRealName(const QString &value)
+{
+    realName = value;
+}
+
+void Component::setPartName(const QString &value)
+{
+    partName = value;
+}

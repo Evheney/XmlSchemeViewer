@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "component.h"
+#include "componentdata.h"
 #include <QList>
 
 class Scheme
@@ -18,6 +19,7 @@ public:
     void addEpmXrayInfo(const EpmXrayInfo& info);
     void addPdElem(Pd* elem);
     void addFootprintElem(Footprint * elem2);
+    void addComponentElem(ComponentData*cdata);
 
     void addBoardName(Board_info* board_info);
     void print();
@@ -26,6 +28,7 @@ public:
 protected:
     QList<Component*> components;
     Board *board;
+    ComponentData*componentdata;
 };
 
 #endif // SCHEME_H

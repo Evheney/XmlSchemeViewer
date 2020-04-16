@@ -1,4 +1,5 @@
 #include "scheme.h"
+#include "componentdata.h"
 
 Scheme::Scheme()
 {
@@ -33,6 +34,11 @@ void Scheme::addPdElem(Pd *elem)
 void Scheme::addFootprintElem(Footprint *elem2)
 {
     board->addFootprintElem(elem2);
+}
+
+void Scheme::addComponentElem(ComponentData *cdata)
+{
+    board->addComponentData(cdata);
 }
 
 void Scheme::addBoardName(Board_info *board_info)

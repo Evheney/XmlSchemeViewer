@@ -2,6 +2,10 @@
 
 #include "board.h"
 #include "board_info.h"
+#include "componentdata.h"
+
+const QString k_group = "group";
+const QString k_boardarray = "boardarray";
 
 XmlBoardReader::XmlBoardReader(Scheme* board)
     : Parser(board)
@@ -17,7 +21,7 @@ bool XmlBoardReader::read(QIODevice *device)
             readEpmXrayInfo();
 
             createComponents();
-        //readBoard();
+            //readBoard();
         }
         else {
             reader.raiseError(QObject::tr("Not a Scheme file"));
@@ -80,6 +84,9 @@ void XmlBoardReader::readEpmXrayInfo()
         }
         else if(reader.name() == "footprints"){
             readFootprints();
+        }
+        else if(reader.name() == "components"){
+            readComponentsData();
         }
         else
             reader.skipCurrentElement();
@@ -173,4 +180,42 @@ void XmlBoardReader::readFootprints(){
     }
 }
 
+void XmlBoardReader::readComponentsData()
+{
+    while (reader.readNextStartElement()){
+        qDebug() << reader.name();
+        if (reader.name() == k_group){
 
+            while (reader.readNextStartElement()){
+                qDebug() << reader.name();
+                if (reader.name() == k_boardarray){
+
+                    while (reader.readNextStartElement()){
+                        qDebug() << reader.name();
+                        if (reader.name() == "component"){
+                            ComponentData * cdata = new ComponentData;
+                            cdata->realname = reader.attributes().value("name").toString();
+                            cdata->partname = reader.attributes().value("part").toString();
+                            cdata->realX = reader.attributes().value("x").toDouble();
+                            cdata->realY = reader.attributes().value("y").toDouble();
+
+                            scheme->addComponentElem(cdata);
+                            reader.skipCurrentElement();
+                        }
+                        else
+                            reader.skipCurrentElement();
+                    }
+                }
+                else
+                    reader.skipCurrentElement();
+            }
+        }
+        else
+            reader.skipCurrentElement();
+    }
+}
+/*      double componentrealX;
+        double componentreadY;
+        QString componentrealname;
+        QString componentpartname;
+*/

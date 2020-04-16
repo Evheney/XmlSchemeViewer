@@ -31,7 +31,14 @@ public:
         return circles.size();
     }
 
+    void setRealName(const QString &value);
+
+    void setPartName(const QString &value);
+
 protected:
+    QString realName; // U1001
+    QString partName; // ****-****-****-****
+
     int number;
     QPointF point;
     QSizeF size;

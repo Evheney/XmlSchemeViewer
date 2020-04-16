@@ -17,6 +17,11 @@ void Board::addFootprintElem(Footprint *elem2)
     m_footprintsList.append(elem2);
 }
 
+void Board::addComponentData(ComponentData *cdata)
+{
+    m_componentDataList.append(cdata);
+}
+
 void Board::addBoardName(Board_info *board_info)
 {
     m_BoardInfoList.append(board_info);
@@ -67,16 +72,19 @@ Component *Board::createComponent(int index)
     if (index < 0 || index >= m_footprintsList.size())
         return nullptr;
 
+    // TODO: Create getFootprint(realname) and use it instead of m_footprintsList.at(index)
     Footprint * fpt = m_footprintsList.at(index);
     if (!fpt)
         return nullptr;
 
-    const double SCALE = 20;
+    const double SCALE = 10;//20;
 
 
     Component * cc = new Component();
 
     cc->setNumber(0);
+
+    // TODO: Use componentData->realX() and componentData->realY()
     cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
     cc->setSize(fpt->m_footw*SCALE, fpt->m_footh*SCALE);
 
