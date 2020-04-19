@@ -1,7 +1,7 @@
 #include "xmlboardreader.h"
 
 #include "board.h"
-#include "board_info.h"
+#include "boardarray.h"
 #include "componentdata.h"
 
 const QString k_group = "group";
@@ -52,32 +52,34 @@ void XmlBoardReader::readEpmXrayInfo()
 
     while(reader.readNextStartElement()){
         if(reader.name() == "format") {
-            info.m_formatVer =
-                    reader.attributes().value("ver").toString();
-            info.m_formatName =
-                    reader.attributes().value("name").toString();
+            info.setFormatVer(reader.attributes().value("ver").toString());
+            info.setFormatName(reader.attributes().value("name").toString());
             //scheme->addEpmXrayInfo(info);
             reader.skipCurrentElement();
         }
         else if(reader.name() == "program") {
-            info.m_programVer =
-                    reader.attributes().value("ver").toString();
-            info.m_programName =
-                    reader.attributes().value("name").toString();
-            info.m_programDate =
-                    reader.attributes().value("date").toString();
+            info.setProgramVer(reader.attributes().value("ver").toString());
+            info.setProgramName(reader.attributes().value("name").toString());
+            info.setProgramDate(reader.attributes().value("date").toString());
             //scheme->addEpmXrayInfo(info);
             reader.skipCurrentElement();
         }
         else if(reader.name() == "unit") {
-            info.m_unitName =
-                    reader.attributes().value("name").toString();
-            info.m_unitCoord =
-                    reader.attributes().value("coord").toString();
-            info.m_unitDecpt =
-                    reader.attributes().value("decpt").toString();
+            info.setUnitName(reader.attributes().value("name").toString());
+            info.setUnitCoord(reader.attributes().value("coord").toString());
+            info.setUnitDecpt(reader.attributes().value("decpt").toString());
             scheme->addEpmXrayInfo(info);
             reader.skipCurrentElement();
+        }
+        else if(reader.name() == "board") {
+            //info.setBoardName(reader.attributes().value("name").toString());
+            info.setBoardWidth(reader.attributes().value("w").toDouble());
+            info.setBoardHeight(reader.attributes().value("h").toDouble());
+            scheme->addEpmXrayInfo(info);
+            reader.skipCurrentElement();
+        }
+        else if(reader.name() == "boardarrays") {
+            readBoardArrays();
         }
         else if(reader.name() == "pds"){
             readPds();
@@ -93,6 +95,33 @@ void XmlBoardReader::readEpmXrayInfo()
 
     }
 
+}
+
+void XmlBoardReader::readBoardArrays()
+{
+    while (reader.readNextStartElement()){
+        qDebug() << reader.name();
+        if (reader.name() == k_group){
+
+            while (reader.readNextStartElement()){
+                qDebug() << reader.name();
+                if (reader.name() == k_boardarray){
+                    int num = reader.attributes().value("num").toInt();
+                    QString name = reader.attributes().value("name").toString();
+                    double x = reader.attributes().value("x").toDouble();
+                    double y = reader.attributes().value("y").toDouble();
+                    double rot = reader.attributes().value("rot").toDouble();
+                    BoardArray *ba = new BoardArray(num, name, x,y,rot);
+                    scheme->addBoardArray(ba);
+                    reader.skipCurrentElement();
+                }
+                else
+                    reader.skipCurrentElement();
+            }
+        }
+        else
+            reader.skipCurrentElement();
+    }
 }
 
 void XmlBoardReader::readPds(){
@@ -146,26 +175,26 @@ void XmlBoardReader::readFootprints(){
         if (reader.name() == "footprint") {
             Footprint * elem2 = new Footprint;
 
-            elem2->m_footName =
-                    reader.attributes().value("name").toString();
-            elem2->m_footh =
-                    reader.attributes().value("bodyheight").toDouble();
-            elem2->m_footw =
-                    reader.attributes().value("bodywidth").toDouble();
+            elem2->setFootName (
+                    reader.attributes().value("name").toString());
+            elem2->setFooth (
+                    reader.attributes().value("bodyheight").toDouble());
+            elem2->setFootw (
+                    reader.attributes().value("bodywidth").toDouble());
 
             while (reader.readNextStartElement()){
                 if (reader.name() == "pin") {
                     Pin *pin = new Pin;
-                    pin->m_pinName =
-                            reader.attributes().value("name").toString();
-                    pin->m_piny =
-                            reader.attributes().value("y").toDouble();
-                    pin->m_pinx =
-                            reader.attributes().value("x").toDouble();
-                    pin->m_pinrot =
-                            reader.attributes().value("rot").toDouble();
-                    pin->m_pinpd =
-                            reader.attributes().value("pd").toInt();
+                    pin->setPinName (
+                            reader.attributes().value("name").toString());
+                    pin->setPiny (
+                            reader.attributes().value("y").toDouble());
+                    pin->setPinx (
+                            reader.attributes().value("x").toDouble());
+                    pin->setPinrot (
+                            reader.attributes().value("rot").toDouble());
+                    pin->setPinpd (
+                            reader.attributes().value("pd").toInt());
 
                     elem2->addPin(pin);
                     reader.skipCurrentElement();
@@ -189,15 +218,20 @@ void XmlBoardReader::readComponentsData()
             while (reader.readNextStartElement()){
                 qDebug() << reader.name();
                 if (reader.name() == k_boardarray){
+                    int boardNum = reader.attributes().value("num").toInt();
+                    QString blockName = reader.attributes().value("block_name").toString();
 
                     while (reader.readNextStartElement()){
                         qDebug() << reader.name();
                         if (reader.name() == "component"){
                             ComponentData * cdata = new ComponentData;
-                            cdata->realname = reader.attributes().value("name").toString();
-                            cdata->partname = reader.attributes().value("part").toString();
-                            cdata->realX = reader.attributes().value("x").toDouble();
-                            cdata->realY = reader.attributes().value("y").toDouble();
+                            cdata->setRealName(reader.attributes().value("name").toString());
+                            cdata->setPartName(reader.attributes().value("part").toString());
+                            cdata->setRealX(reader.attributes().value("x").toDouble());
+                            cdata->setRealY(reader.attributes().value("y").toDouble());
+                            cdata->setRot(reader.attributes().value("rot").toDouble());
+                            cdata->setBoardNumber(boardNum);
+                            cdata->setBlockName(blockName);
 
                             scheme->addComponentElem(cdata);
                             reader.skipCurrentElement();

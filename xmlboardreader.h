@@ -25,6 +25,7 @@ private:
     QXmlStreamReader reader;
 
     void readEpmXrayInfo();
+    void readBoardArrays();
     void readPds();
     void readFootprints();
     void readComponentsData();

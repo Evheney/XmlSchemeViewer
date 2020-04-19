@@ -26,6 +26,8 @@ CONFIG += c++11
 
 SOURCES += \
         board.cpp \
+        boardarray.cpp \
+        boardgroup.cpp \
         component.cpp \
         componentdata.cpp \
         epmxrayinfo.cpp \
@@ -42,7 +44,8 @@ SOURCES += \
 
 HEADERS += \
         board.h \
-        board_info.h \
+        boardarray.h \
+        boardgroup.h \
         component.h \
         componentdata.h \
         epmxrayinfo.h \

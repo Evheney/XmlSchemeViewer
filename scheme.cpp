@@ -21,9 +21,29 @@ Component *Scheme::getComponent(int index) const
     return components.at(index);
 }
 
+Board *Scheme::getBoard() const
+{
+    return board;
+}
+
+BoardArray *Scheme::getBoardArray(int index) const
+{
+    board->getBoardArray(index);
+}
+
 void Scheme::addEpmXrayInfo(const EpmXrayInfo &info)
 {
     board->addEpmXrayInfo(info);
+}
+
+void Scheme::addBoardGroup(BoardGroup *gr)
+{
+    board->addBoardGroup(gr);
+}
+
+void Scheme::addBoardArray(BoardArray *ba)
+{
+    board->addBoardArray(ba);
 }
 
 void Scheme::addPdElem(Pd *elem)
@@ -41,7 +61,7 @@ void Scheme::addComponentElem(ComponentData *cdata)
     board->addComponentData(cdata);
 }
 
-void Scheme::addBoardName(Board_info *board_info)
+void Scheme::addBoardName(BoardArray *board_info)
 {
     board->addBoardName(board_info);
 }
@@ -53,13 +73,15 @@ void Scheme::print()
 
 void Scheme::createComponets()
 {
-    qDebug() << "Schem :: createComponetent";
+    qDebug() << "Scheme :: createComponetents";
 
-    Component* cc = board->createComponent(0);
-    if(cc != nullptr)
-        addComponent(cc);
+/*    for (int i=0; i<4; ++i) {
+        Component* cc = board->createComponent(i);
+        if(cc != nullptr)
+            addComponent(cc);
+    }
+*/
 
-    /*
     int index=0;
     while(true){
         Component* cc = board->createComponent(index);
@@ -68,5 +90,5 @@ void Scheme::createComponets()
 
         addComponent(cc);
         ++index;
-    }*/
+    }
 }

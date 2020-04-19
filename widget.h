@@ -3,6 +3,7 @@
 
 #include "scheme.h"
 #include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QWidget>
 
 
@@ -20,10 +21,12 @@ public:
 public:
     void addScheme(const Scheme& scheme);
     void drawComponent (const Component& component);
+    void drawBoardArrays(const Scheme& scheme);
 
 private:
     Ui::Widget *ui;
     QGraphicsScene* m_scene;
+    QGraphicsView * m_view;
 };
 
 #endif // WIDGET_H

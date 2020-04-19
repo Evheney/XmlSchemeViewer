@@ -22,9 +22,19 @@ void Board::addComponentData(ComponentData *cdata)
     m_componentDataList.append(cdata);
 }
 
-void Board::addBoardName(Board_info *board_info)
+void Board::addBoardName(BoardArray *board_info)
 {
     m_BoardInfoList.append(board_info);
+}
+
+void Board::addBoardGroup(BoardGroup *gr)
+{
+    m_boardGroupList.append(gr);
+}
+
+void Board::addBoardArray(BoardArray *ba)
+{
+    m_boardArrayList.append(ba);
 }
 
 void Board::print() const
@@ -67,15 +77,36 @@ bool Board::getDataForComponent(int index, int& number, QPointF& point, QSizeF& 
 
 Component *Board::createComponent(int index)
 {
-    qDebug() << "Board createComponent " << index;
-
-    if (index < 0 || index >= m_footprintsList.size())
+    if (index >= m_componentDataList.size()) {
         return nullptr;
+    }
+
+
+    qDebug() << "\nBoard createComponent " << index;
+
+    //if (index < 0 || index >= m_footprintsList.size())
+    //    return nullptr;
+
+    // Get componetData by index
+    ComponentData * cdata = m_componentDataList.at(index);
+    if (!cdata) {
+        qDebug() << "ComponentData with index " << index << " does not exist";
+        return nullptr;
+    }
+
+    QString partName = cdata->getPartName();
+    double x = cdata->getRealX();
+    double y = cdata->getRealY();
+    qDebug() << "Part : " << partName;
+    qDebug() << "X : " << x;
+    qDebug() << "Y : " << y;
 
     // TODO: Create getFootprint(realname) and use it instead of m_footprintsList.at(index)
-    Footprint * fpt = m_footprintsList.at(index);
-    if (!fpt)
+    Footprint * fpt = getFootprint(partName);
+    if (!fpt) {
+        qDebug() << "Cannot find footprint with name " << partName;
         return nullptr;
+    }
 
     const double SCALE = 10;//20;
 
@@ -85,13 +116,14 @@ Component *Board::createComponent(int index)
     cc->setNumber(0);
 
     // TODO: Use componentData->realX() and componentData->realY()
-    cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
-    cc->setSize(fpt->m_footw*SCALE, fpt->m_footh*SCALE);
+    //cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
+    cc->setPoint(x*SCALE,y*SCALE);
+    cc->setSize(fpt->footw(), fpt->footh());
 
     qreal radius = 1.;
-    Pin * pin0 = fpt->pins.at(0);
+    Pin * pin0 = fpt->getPins().at(0);
     if (pin0) {
-        int pd = pin0->m_pinpd;
+        int pd = pin0->pinpd();
         for (Pd * item : m_pdList) {
             if (item->m_num == pd) {
                 radius = item->m_shapeDia/2.;
@@ -99,8 +131,8 @@ Component *Board::createComponent(int index)
             }
         }
     }
-    for(Pin* pin : fpt->pins) {
-        cc->addPin(pin->m_pinx*SCALE, pin->m_piny*SCALE, radius*SCALE);
+    for(Pin* pin : fpt->getPins()) {
+        cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, radius*SCALE);
     }
 
     // footprint
@@ -108,4 +140,33 @@ Component *Board::createComponent(int index)
     // pd
 
     return cc;
+}
+
+Footprint *Board::getFootprint(const QString &partName)
+{
+    for (Footprint * fpt : m_footprintsList) {
+        if (fpt->footName() == partName)
+            return fpt;
+    }
+
+    return nullptr;
+}
+
+BoardArray *Board::getBoardArray(int index) const
+{
+    if (index < m_boardArrayList.size()) {
+        return m_boardArrayList.at(index);
+    }
+
+    return nullptr;
+}
+
+double Board::boardWidth() const
+{
+    return m_info.boardWidth();
+}
+
+double Board::boardHeight() const
+{
+    return m_info.boardHeight();
 }
