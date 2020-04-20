@@ -30,7 +30,7 @@ public:
     void addFootprintElem(Footprint * elem2);
     void addComponentElem(ComponentData*cdata);
 
-    void addBoardName(BoardArray* board_info);
+    //void addBoardName(BoardArray* board_info);
     void print();
     void createComponets();
 

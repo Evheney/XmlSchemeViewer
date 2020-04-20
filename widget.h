@@ -1,3 +1,4 @@
+#if 0
 #ifndef WIDGET_H
 #define WIDGET_H
 
@@ -30,3 +31,4 @@ private:
 };
 
 #endif // WIDGET_H
+#endif

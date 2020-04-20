@@ -6,6 +6,7 @@ class BoardGroup
 {
 public:
     BoardGroup();
+    ~BoardGroup();
 
 
 };

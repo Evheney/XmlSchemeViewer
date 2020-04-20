@@ -3,12 +3,19 @@
 
 Scheme::Scheme()
 {
-    board=new Board;
+    board = new Board;
 }
 
 Scheme::~Scheme()
 {
-     delete board ;
+    qDebug() << "Scheme Destructor";
+
+    delete board;
+
+    for(Component * item: components) {
+        delete item;
+    }
+    qDebug() << "End Scheme Destructor";
 }
 
 void Scheme::addComponent(Component *c)
@@ -61,10 +68,10 @@ void Scheme::addComponentElem(ComponentData *cdata)
     board->addComponentData(cdata);
 }
 
-void Scheme::addBoardName(BoardArray *board_info)
-{
-    board->addBoardName(board_info);
-}
+//void Scheme::addBoardName(BoardArray *board_info)
+//{
+//    board->addBoardName(board_info);
+//}
 
 void Scheme::print()
 {

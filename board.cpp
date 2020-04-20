@@ -2,6 +2,26 @@
 
 #include "board.h"
 
+Board::~Board()
+{
+    qDebug() << "Board Destructor";
+
+    for (BoardGroup* item: m_boardGroupList)
+        delete item;
+    for (BoardArray* item: m_boardArrayList)
+        delete item;
+    for (Pd* item: m_pdList)
+        delete item;
+    for (Footprint* item : m_footprintsList)
+        delete item;
+    //for (BoardArray* item : m_BoardInfoList)
+    //    delete item;
+    for (ComponentData* item : m_componentDataList)
+        delete item;
+
+    qDebug() << "End Board Destructor";
+}
+
 void Board::addEpmXrayInfo(const EpmXrayInfo &info)
 {
     m_info = info;
@@ -22,10 +42,10 @@ void Board::addComponentData(ComponentData *cdata)
     m_componentDataList.append(cdata);
 }
 
-void Board::addBoardName(BoardArray *board_info)
-{
-    m_BoardInfoList.append(board_info);
-}
+//void Board::addBoardName(BoardArray *board_info)
+//{
+//    m_BoardInfoList.append(board_info);
+//}
 
 void Board::addBoardGroup(BoardGroup *gr)
 {

@@ -8,6 +8,7 @@ class Component
 {
 public:
     Component();
+    ~Component();
 
     void setNumber(int n) {
         number = n;

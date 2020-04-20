@@ -9,6 +9,7 @@ class ComponentData
 {
 public:
     ComponentData();
+    ~ComponentData();
 
     double getRealX() const;
     double getRealY() const;

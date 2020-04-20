@@ -17,13 +17,14 @@ class Board {
     Board() {
         qDebug() << "Board constructor";
     }
+    ~Board();
 
     void addEpmXrayInfo(const EpmXrayInfo& info);
     void addPdElem(Pd* elem);
     void addFootprintElem(Footprint * elem2);
     void addComponentData(ComponentData* cdata);
 
-    void addBoardName(BoardArray* board_info);
+    //void addBoardName(BoardArray* board_info);
     void addBoardGroup(BoardGroup* gr);
     void addBoardArray(BoardArray* ba);
     void print() const;
@@ -46,7 +47,7 @@ private:
 
     QList<Pd*> m_pdList;
     QList<Footprint*> m_footprintsList;
-    QList<BoardArray*> m_BoardInfoList;
+    //QList<BoardArray*> m_BoardInfoList;
     QList<ComponentData*> m_componentDataList;
 };
 

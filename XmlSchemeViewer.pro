@@ -32,13 +32,14 @@ SOURCES += \
         componentdata.cpp \
         epmxrayinfo.cpp \
         footprints.cpp \
+        graphicsview.cpp \
         main.cpp \
+        mainwindow.cpp \
         parser.cpp \
         pd.cpp \
         rect.cpp \
         scene.cpp \
         scheme.cpp \
-        view.cpp \
         widget.cpp \
         xmlboardreader.cpp
 
@@ -50,16 +51,18 @@ HEADERS += \
         componentdata.h \
         epmxrayinfo.h \
         footprints.h \
+        graphicsview.h \
+        mainwindow.h \
         parser.h \
         pd.h \
         rect.h \
         scene.h \
         scheme.h \
-        view.h \
         widget.h \
         xmlboardreader.h
 
 FORMS += \
+        mainwindow.ui \
         widget.ui
 
 # Default rules for deployment.
@@ -68,4 +71,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    resource.qrc
+    resources.qrc

@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "componentdata.h"
 #include <math.h>
 
@@ -6,6 +7,11 @@ ComponentData::ComponentData()
     , realY(0.)
     , boardNumber(0)
 {
+}
+
+ComponentData::~ComponentData()
+{
+    qDebug() << "ComponentData destructor";
 }
 
 double ComponentData::getRealX() const

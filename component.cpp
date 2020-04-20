@@ -9,6 +9,11 @@ Component::Component()
 
 }
 
+Component::~Component()
+{
+    qDebug() << "Component destructor";
+}
+
 void Component::addPin(qreal x, qreal y, qreal radius)
 {
     QRectF r = QRectF(QPointF(x+offsetx,y+offsety), QSizeF(radius*2, radius*2));

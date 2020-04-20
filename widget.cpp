@@ -1,3 +1,4 @@
+#if 0
 #include "widget.h"
 #include "ui_widget.h"
 //#include "view.h"
@@ -75,7 +76,6 @@ void Widget::drawComponent(const Component& component)
     for (int index=0; index<circleCount; ++index) {
         QRectF r = component.getCircle(index);
         r.adjust(pt.x(),pt.y(), pt.x(),pt.y());
-        //r.moveTo(pt);
 
         QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r);
         ellipseItem->setParentItem(rectItem);
@@ -111,3 +111,4 @@ void Widget::drawBoardArrays(const Scheme &scheme)
 
 }
 
+#endif
