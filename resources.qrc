@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/LearnQt.png</file>
+        <file>icons/icons8-close-window-32.png</file>
+        <file>icons/icons8-fit-to-page-32.png</file>
+        <file>icons/icons8-open-file-under-cursor-32.png</file>
+        <file>icons/icons8-zoom-in-32.png</file>
+        <file>icons/icons8-zoom-out-32.png</file>
+        <file>icons/icons8-export-32.png</file>
+    </qresource>
+</RCC>
