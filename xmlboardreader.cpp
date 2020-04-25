@@ -177,9 +177,9 @@ void XmlBoardReader::readFootprints(){
 
             elem2->setFootName (
                     reader.attributes().value("name").toString());
-            elem2->setFooth (
+            elem2->setBodyHeight (
                     reader.attributes().value("bodyheight").toDouble());
-            elem2->setFootw (
+            elem2->setBodyWidth (
                     reader.attributes().value("bodywidth").toDouble());
 
             while (reader.readNextStartElement()){
@@ -227,8 +227,8 @@ void XmlBoardReader::readComponentsData()
                             ComponentData * cdata = new ComponentData;
                             cdata->setRealName(reader.attributes().value("name").toString());
                             cdata->setPartName(reader.attributes().value("part").toString());
-                            cdata->setRealX(reader.attributes().value("x").toDouble());
-                            cdata->setRealY(reader.attributes().value("y").toDouble());
+                            cdata->setCenterX(reader.attributes().value("x").toDouble());
+                            cdata->setCenterY(reader.attributes().value("y").toDouble());
                             cdata->setRot(reader.attributes().value("rot").toDouble());
                             cdata->setBoardNumber(boardNum);
                             cdata->setBlockName(blockName);

@@ -115,11 +115,6 @@ Component *Board::createComponent(int index)
     }
 
     QString partName = cdata->getPartName();
-    double x = cdata->getRealX();
-    double y = cdata->getRealY();
-    qDebug() << "Part : " << partName;
-    qDebug() << "X : " << x;
-    qDebug() << "Y : " << y;
 
     // TODO: Create getFootprint(realname) and use it instead of m_footprintsList.at(index)
     Footprint * fpt = getFootprint(partName);
@@ -127,6 +122,13 @@ Component *Board::createComponent(int index)
         qDebug() << "Cannot find footprint with name " << partName;
         return nullptr;
     }
+    double x = cdata->getCenterX() - (fpt->bodyWidth() / 2);
+    double y = cdata->getCenterY() - (fpt->bodyHeight() / 2);
+    qDebug() << "Part : " << partName;
+    qDebug() << "X : " << x;
+    qDebug() << "Y : " << y;
+
+
 
     const double SCALE = 10;//20;
 
@@ -137,8 +139,9 @@ Component *Board::createComponent(int index)
 
     // TODO: Use componentData->realX() and componentData->realY()
     //cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
-    cc->setPoint(x*SCALE,y*SCALE);
-    cc->setSize(fpt->footw(), fpt->footh());
+
+    cc->setPoint( x*SCALE, y*SCALE);
+    cc->setSize(fpt->bodyWidth()*SCALE, fpt->bodyHeight()*SCALE);
     cc->setRotateAngle(cdata->getRot());
 
     qreal radius = 1.;
