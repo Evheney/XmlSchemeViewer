@@ -3,8 +3,8 @@
 #include <math.h>
 
 ComponentData::ComponentData()
-    : realX(0.)
-    , realY(0.)
+    : centerX(0.)
+    , centerY(0.)
     , boardNumber(0)
 {
 }
@@ -14,28 +14,28 @@ ComponentData::~ComponentData()
     qDebug() << "ComponentData destructor";
 }
 
-double ComponentData::getRealX() const
+double ComponentData::getCenterX() const
 {
     //const double theta = rot*M_PI/180.;
     //return cos(theta)*realX - sin(theta)*realY + realX;
-    return realX;
+    return centerX;
 }
 
-void ComponentData::setRealX(double value)
+void ComponentData::setCenterX(double value)
 {
-    realX = value;
+    centerX = value;
 }
 
-double ComponentData::getRealY() const
+double ComponentData::getCenterY() const
 {
     //const double theta = rot*M_PI/180.;
     //return sin(theta)*realX + cos(theta)*realY + realY;
-    return realY;
+    return centerY;
 }
 
-void ComponentData::setRealY(double value)
+void ComponentData::setCenterY(double value)
 {
-    realY = value;
+    centerY = value;
 }
 
 QString ComponentData::getRealName() const

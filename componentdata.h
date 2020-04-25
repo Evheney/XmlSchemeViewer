@@ -11,16 +11,16 @@ public:
     ComponentData();
     ~ComponentData();
 
-    double getRealX() const;
-    double getRealY() const;
+    double getCenterX() const;
+    double getCenterY() const;
     double getRot() const;
     QString getRealName() const;
     QString getPartName() const;
     int getBoardNumber() const;
     QString getBlockName() const;
 
-    void setRealX(double value);
-    void setRealY(double value);
+    void setCenterX(double value);
+    void setCenterY(double value);
     void setRot(double value);
     void setRealName(const QString &value);
     void setPartName(const QString &value);
@@ -28,8 +28,8 @@ public:
     void setBlockName(const QString &value);
 
 private:
-    double realX;
-    double realY;
+    double centerX;
+    double centerY;
     double rot;
 
     QString realName;

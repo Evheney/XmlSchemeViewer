@@ -2,7 +2,7 @@
 #include "footprints.h"
 
 Footprint::Footprint()
-    :SCALE(10)
+   // :SCALE(10)
 {
 
 }
@@ -22,24 +22,24 @@ Pin *Footprint::getPin(int index)
     return pins.at(index);
 }
 
-double Footprint::footw() const
+double Footprint::bodyWidth() const
 {
-    return m_footw*SCALE;
+    return m_bodyWidth;
 }
 
-void Footprint::setFootw(double footw)
+void Footprint::setBodyWidth(double footw)
 {
-    m_footw = footw;
+    m_bodyWidth = footw;
 }
 
-double Footprint::footh() const
+double Footprint::bodyHeight() const
 {
-    return m_footh*SCALE;
+    return m_bodyHeight;
 }
 
-void Footprint::setFooth(double footh)
+void Footprint::setBodyHeight(double footh)
 {
-    m_footh = footh;
+    m_bodyHeight = footh;
 }
 
 QString Footprint::footName() const
@@ -59,7 +59,7 @@ void Footprint::addPin(Pin *pin)
 
 void Footprint::print() const
 {
-    qDebug() << "Footprint name is:" << m_footName << "bodyheight:" << m_footh << "bodywidth:" <<m_footw;
+    qDebug() << "Footprint name is:" << m_footName << "bodyheight:" << m_bodyHeight << "bodywidth:" <<m_bodyWidth;
 
     //qDebug() << "Pin name is:" << m_pinName << "pin size:" << m_pinpd << "pin X:" <<m_pinx <<"pin Y:"<< m_piny;
 }

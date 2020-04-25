@@ -38,11 +38,11 @@ public:
     QString footName() const;
     void setFootName(const QString &footName);
 
-    double footh() const;
-    void setFooth(double footh);
+    double bodyHeight() const;
+    void setBodyHeight(double bodyHeight);
 
-    double footw() const;
-    void setFootw(double footw);
+    double bodyWidth() const;
+    void setBodyWidth(double bodyWidth);
 
     void addPin(Pin* pin);
     void print() const;
@@ -52,10 +52,10 @@ public:
     Pin * getPin(int index);
 
 private:
-    double SCALE;
+   // double SCALE;
     QString m_footName;
-    double m_footh;
-    double m_footw;
+    double m_bodyHeight;
+    double m_bodyWidth;
 
     QList<Pin*> pins;
 };
