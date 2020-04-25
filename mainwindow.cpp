@@ -70,7 +70,7 @@ void MainWindow::on_actionExport_triggered()
 
     QPixmap pixmap = QPixmap(myRect.size());
     QString filename = QFileDialog::getSaveFileName(
-                nullptr, tr("Save As Image"), "Image", tr("BMP Image (*.png)"));
+                nullptr, tr("Save As Image"), "Image", tr("PNG Image (*.png)"));
                 //"PNG Images (*.png);;BMP images (*.bmp);;JPG images (*.jpg)");
 
     if( !filename.isEmpty() )
@@ -130,9 +130,9 @@ void MainWindow::drawComponent(const Component& component)
                 pt.x(),pt.y(),sz.width(),sz.height(),
                 QPen(Qt::NoPen),QBrush(QColor(0, 0, 255, 32), Qt::SolidPattern));
 
-    int ee = QGraphicsItem::ItemIsFocusable /*| QGraphicsItem::ItemIsMovable*/ | QGraphicsItem::ItemIsSelectable;
-    qDebug() << ee;
-    rectItem->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsMovable);
+    //int ee = QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable;
+    //qDebug() << ee;
+    rectItem->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
     rectItem->setFocus();
 
     const int circleCount = component.getNumCircles();
@@ -142,6 +142,13 @@ void MainWindow::drawComponent(const Component& component)
 
         QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r);
         ellipseItem->setParentItem(rectItem);
+    }
+
+    // TODO: rotate only if necessary
+    if (!qFuzzyIsNull(component.rotateAngle())) {
+        QPointF ptOrg = QPointF(pt.x()+sz.width()/2, pt.y()+sz.height()/2);
+        rectItem->setTransformOriginPoint(ptOrg);
+        rectItem->setRotation(component.rotateAngle());
     }
 }
 

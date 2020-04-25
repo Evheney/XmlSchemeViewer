@@ -139,6 +139,7 @@ Component *Board::createComponent(int index)
     //cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
     cc->setPoint(x*SCALE,y*SCALE);
     cc->setSize(fpt->footw(), fpt->footh());
+    cc->setRotateAngle(cdata->getRot());
 
     qreal radius = 1.;
     Pin * pin0 = fpt->getPins().at(0);

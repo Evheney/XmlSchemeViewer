@@ -5,6 +5,7 @@ Component::Component()
     : number(0)
     , point(QPointF(0,0))
     , size(QSizeF(0,0))
+    , rotAngle(0.)
 {
 
 }
@@ -35,6 +36,10 @@ QRectF Component::getCircle(int index) const
     return circles.at(index);
 }
 
+int Component::getNumCircles() const {
+    return circles.size();
+}
+
 void Component::setRealName(const QString &value)
 {
     realName = value;
@@ -43,4 +48,29 @@ void Component::setRealName(const QString &value)
 void Component::setPartName(const QString &value)
 {
     partName = value;
+}
+
+void Component::setRotateAngle(double value)
+{
+    rotAngle = value;
+}
+
+double Component::rotateAngle() const
+{
+    return rotAngle;
+}
+
+void Component::setNumber(int n) {
+    number = n;
+}
+
+void Component::setPoint(qreal x, qreal y) {
+    point.setX(x);
+    point.setY(y);
+}
+
+void Component::setSize(qreal sx, qreal sy) {
+    size.setWidth(sx);
+    size.setHeight(sy);
+    calcOffset();
 }

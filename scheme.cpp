@@ -35,7 +35,7 @@ Board *Scheme::getBoard() const
 
 BoardArray *Scheme::getBoardArray(int index) const
 {
-    board->getBoardArray(index);
+    return board->getBoardArray(index);
 }
 
 void Scheme::addEpmXrayInfo(const EpmXrayInfo &info)

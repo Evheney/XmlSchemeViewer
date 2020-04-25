@@ -10,31 +10,20 @@ public:
     Component();
     ~Component();
 
-    void setNumber(int n) {
-        number = n;
-    }
-    void setPoint(qreal x, qreal y) {
-        point.setX(x);
-        point.setY(y);
-    }
-    void setSize(qreal sx, qreal sy) {
-        size.setWidth(sx);
-        size.setHeight(sy);
-        calcOffset();
-    }
-
     void addPin(qreal x, qreal y, qreal radius);
+
+    void setNumber(int n);
+    void setPoint(qreal x, qreal y);
+    void setSize(qreal sx, qreal sy);
+    void setRealName(const QString &value);
+    void setPartName(const QString &value);
+    void setRotateAngle(double value);
 
     QPointF getPoint() const;
     QSizeF getSize() const;
     QRectF getCircle(int index) const;
-    int getNumCircles() const {
-        return circles.size();
-    }
-
-    void setRealName(const QString &value);
-
-    void setPartName(const QString &value);
+    int getNumCircles() const;
+    double rotateAngle() const;
 
 protected:
     QString realName; // U1001
@@ -45,6 +34,7 @@ protected:
     QSizeF size;
     //QRectF rect;
     QList<QRectF> circles;
+    double rotAngle; // degree
 
     void calcOffset() {
         offsetx = size.width() / 2.;
