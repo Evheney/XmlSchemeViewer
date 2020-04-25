@@ -248,8 +248,3 @@ void XmlBoardReader::readComponentsData()
             reader.skipCurrentElement();
     }
 }
-/*      double componentrealX;
-        double componentreadY;
-        QString componentrealname;
-        QString componentpartname;
-*/
