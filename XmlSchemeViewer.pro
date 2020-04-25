@@ -40,7 +40,6 @@ SOURCES += \
         rect.cpp \
         scene.cpp \
         scheme.cpp \
-        widget.cpp \
         xmlboardreader.cpp
 
 HEADERS += \
@@ -58,12 +57,10 @@ HEADERS += \
         rect.h \
         scene.h \
         scheme.h \
-        widget.h \
         xmlboardreader.h
 
 FORMS += \
-        mainwindow.ui \
-        widget.ui
+        mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
