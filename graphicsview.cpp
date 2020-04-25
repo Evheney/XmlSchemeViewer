@@ -9,12 +9,12 @@
 #include <QTimer>
 
 namespace  {
-const double zoomFactor = 1.1;
+const double zoomFactor = 1.25;
 const double MAX_SCALE = 100;
 const double MIN_SCALE = 0.1;
 };
 
-bool GraphicsView::smoothZoom = true;
+bool GraphicsView::smoothZoom = false;
 GraphicsView* GraphicsView::self = nullptr;
 double GraphicsView::SX = 1.0;   // initial hozirontal scale (1.0: normal)
 double GraphicsView::SY = -1.0;   // initial vertical scale (-1.0: flipped)
