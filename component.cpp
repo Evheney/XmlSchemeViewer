@@ -60,6 +60,26 @@ double Component::rotateAngle() const
     return rotAngle;
 }
 
+QString Component::getRealName() const
+{
+    return realName;
+}
+
+QString Component::getPartName() const
+{
+    return partName;
+}
+
+BoardArray Component::getBoardArray() const
+{
+    return boardArray;
+}
+
+void Component::setBoardArray(const BoardArray &value)
+{
+    boardArray = value;
+}
+
 void Component::setNumber(int n) {
     number = n;
 }

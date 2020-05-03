@@ -7,7 +7,7 @@
 class BoardArray
 {
 public:
-//    BoardArray();
+    BoardArray();
     BoardArray(int num, QString name, double x, double y, double rotate);
 
     int getNum() const;

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTreeWidget>
 #include "graphicsview.h"
 #include "scheme.h"
 
@@ -17,6 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void addScheme(const Scheme& scheme);
+    void populateTree(QTreeWidgetItem *root, const Component& component);
     void drawComponent (const Component& component);
     void drawBoardArrays(const Scheme& scheme);
 

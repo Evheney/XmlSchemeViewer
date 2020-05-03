@@ -40,6 +40,7 @@ SOURCES += \
         rect.cpp \
         scene.cpp \
         scheme.cpp \
+        treeview.cpp \
         xmlboardreader.cpp
 
 HEADERS += \
@@ -57,6 +58,7 @@ HEADERS += \
         rect.h \
         scene.h \
         scheme.h \
+        treeview.h \
         xmlboardreader.h
 
 FORMS += \

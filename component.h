@@ -1,6 +1,8 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
+#include "boardarray.h"
+
 #include <QRectF>
 #include <QList>
 
@@ -11,6 +13,7 @@ public:
     ~Component();
 
     void addPin(qreal x, qreal y, qreal radius);
+    //void setBoardArray()
 
     void setNumber(int n);
     void setPoint(qreal x, qreal y);
@@ -25,7 +28,15 @@ public:
     int getNumCircles() const;
     double rotateAngle() const;
 
+    QString getRealName() const;
+    QString getPartName() const;
+
+    BoardArray getBoardArray() const;
+    void setBoardArray(const BoardArray &value);
+
 protected:
+    BoardArray boardArray;
+
     QString realName; // U1001
     QString partName; // ****-****-****-****
 

@@ -129,14 +129,22 @@ Component *Board::createComponent(int index)
     qDebug() << "Y : " << y;
 
 
+    BoardArray * ba = getBoardArray(cdata->getBoardNumber()-1);
+    if (!ba) {
+        qDebug() << "Cannot find boardarray with num=" << cdata->getBoardNumber();
+    }
 
     const double SCALE = 10;//20;
 
 
     Component * cc = new Component();
-
+    cc->setPartName(cdata->getPartName());
+    cc->setRealName(cdata->getRealName());
     cc->setNumber(0);
 
+    if (ba) {
+        cc->setBoardArray(*ba);
+    }
     // TODO: Use componentData->realX() and componentData->realY()
     //cc->setPoint((0*index)*SCALE,(0*index)*SCALE);
 

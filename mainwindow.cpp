@@ -17,6 +17,33 @@ MainWindow::MainWindow(QWidget *parent)
     , m_view(nullptr)
 {
     ui->setupUi(this);
+    //ui->treeWidget->setColumn(2);
+
+    ui->treeWidget->setHeaderLabel("Data");
+
+/*
+    QTreeWidgetItem * rootFPsItem = new QTreeWidgetItem(ui->treeWidget);
+    rootFPsItem->setText(0, "footprints");
+
+    for (int i=0; i < 5; i++) {
+        QTreeWidgetItem * fpItem = new QTreeWidgetItem();
+        fpItem->setText(0, QString("footprints %1").arg(i+1));
+
+        rootFPsItem->addChild(fpItem);
+    }
+    rootFPsItem->setExpanded(true);
+
+    QTreeWidgetItem * rootPDsItem = new QTreeWidgetItem(ui->treeWidget);
+    rootPDsItem->setText(0, "PDs");
+
+    for (int i=0; i < 5; i++) {
+        QTreeWidgetItem * pdItem = new QTreeWidgetItem();
+        pdItem->setText(0, QString("pd %1").arg(i+1));
+
+        rootPDsItem->addChild(pdItem);
+    }
+    rootPDsItem->setExpanded(true);
+*/
 
     m_scene = new QGraphicsScene(this);
 //    m_scene->addLine(-400,0,400,0, QPen(Qt::blue));
@@ -98,6 +125,19 @@ void MainWindow::on_actionExport_triggered()
     }
 }
 
+QList<Component*> getComponentList(int num, const Scheme& scheme)
+{
+    QList<Component*> compList;
+    const int size = scheme.getComponentSize();
+    for (int index=0; index < size; ++index) {
+        Component* component = scheme.getComponent(index);
+        if (component && component->getBoardArray().getNum() == num) {
+            compList.append(component);
+        }
+    }
+    return compList;
+}
+
 void MainWindow::addScheme(const Scheme &scheme)
 {
     const double SCALE = 10;
@@ -114,11 +154,60 @@ void MainWindow::addScheme(const Scheme &scheme)
 
     drawBoardArrays(scheme);
 
+    QTreeWidgetItem * rootComponents = new QTreeWidgetItem(ui->treeWidget);
+    rootComponents->setText(0, "components");
+
+    // Add boardarrays and components to tree
+    int index = 0;
+    while(1) {
+        BoardArray *ba = scheme.getBoardArray(index);
+        if (!ba)
+            break;
+
+        QTreeWidgetItem *itemBA = new QTreeWidgetItem();
+        itemBA->setText(0, ba->getName());
+        rootComponents->addChild(itemBA);
+
+        // Filter components with given boardarray num
+        // and populate components
+        QList<Component*> list = getComponentList(ba->getNum(), scheme);
+        for(Component* item : list) {
+            populateTree(itemBA, *item);
+        }
+
+        ++index;
+    }
+
+    // Draw components on the scene
     const int size = scheme.getComponentSize();
     for (int index=0; index < size; ++index) {
         Component* component = scheme.getComponent(index);
         drawComponent(*component);
+        //populateTree(rootComponents, *component);
     }
+
+    rootComponents->setExpanded(true);
+}
+
+
+void MainWindow::populateTree(QTreeWidgetItem * rootItem, const Component& component)
+{
+    qDebug() << "populateTree() << " << component.getPartName();
+
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, component.getPartName());
+    rootItem->addChild(item);
+
+/*    const QString treesize = component.getPartName();
+    //const int circleCount = component.getNumCircles();
+    for(int i=0;i<treesize;i++){
+        QTreeWidgetItem * rootFPsItem = new QTreeWidgetItem(ui->treeWidget);
+        rootFPsItem->setText(0, "footprints");
+        QTreeWidgetItem * fpItem = new QTreeWidgetItem();
+        fpItem->setText(0, QString("footprints %1").arg(i+1));
+        rootFPsItem->addChild(fpItem);
+    }
+*/
 }
 
 void MainWindow::drawComponent(const Component& component)
