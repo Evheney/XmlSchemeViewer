@@ -22,6 +22,7 @@ public:
     void drawComponent (const Component& component);
     void drawBoardArrays(const Scheme& scheme);
 
+
 private slots:
     void on_actionZoom_In_triggered();
 
@@ -33,9 +34,15 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionSettings_triggered();
+
+    void on_actionQuit_triggered();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *m_scene;
     GraphicsView *m_view;
+    Scheme *m_scheme;
+
 };
 #endif // MAINWINDOW_H

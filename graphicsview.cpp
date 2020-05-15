@@ -192,6 +192,16 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
     //}
 }
 
+bool GraphicsView::getSmoothZoom()
+{
+    return smoothZoom;
+}
+
+void GraphicsView::setSmoothZoom(bool value)
+{
+    smoothZoom = value;
+}
+
 
 class PropertyAnimation : public QPropertyAnimation {
 public:

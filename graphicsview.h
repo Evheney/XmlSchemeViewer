@@ -22,6 +22,10 @@ public:
     void setScale(double s);
     double getScale();
 
+    static void setSmoothZoom(bool value);
+
+    static bool getSmoothZoom();
+
 signals:
 
 

@@ -46,8 +46,15 @@
     <addaction name="actionZoom_Out"/>
     <addaction name="actionFit_to_content"/>
    </widget>
+   <widget class="QMenu" name="menuSetting">
+    <property name="title">
+     <string>Setting</string>
+    </property>
+    <addaction name="actionSettings"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
+   <addaction name="menuSetting"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="dockWidget">
@@ -93,8 +100,8 @@
    <addaction name="actionZoom_In"/>
    <addaction name="actionZoom_Out"/>
    <addaction name="actionFit_to_content"/>
-   <addaction name="separator"/>
    <addaction name="actionQuit"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -157,6 +164,11 @@
    </property>
    <property name="text">
     <string>Export...</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings...</string>
    </property>
   </action>
  </widget>

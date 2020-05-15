@@ -3,6 +3,8 @@
 #include "parser.h"
 #include "scheme.h"
 #include "xmlboardreader.h"
+#include "settings.h"
+#include "graphicsview.h"
 
 #include <QDebug>
 #include <QFile>
@@ -14,36 +16,14 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_scene(nullptr)
     , m_view(nullptr)
+    , m_scheme(nullptr)
 {
     ui->setupUi(this);
     //ui->treeWidget->setColumn(2);
 
     ui->treeWidget->setHeaderLabel("Data");
-
-/*
-    QTreeWidgetItem * rootFPsItem = new QTreeWidgetItem(ui->treeWidget);
-    rootFPsItem->setText(0, "footprints");
-
-    for (int i=0; i < 5; i++) {
-        QTreeWidgetItem * fpItem = new QTreeWidgetItem();
-        fpItem->setText(0, QString("footprints %1").arg(i+1));
-
-        rootFPsItem->addChild(fpItem);
-    }
-    rootFPsItem->setExpanded(true);
-
-    QTreeWidgetItem * rootPDsItem = new QTreeWidgetItem(ui->treeWidget);
-    rootPDsItem->setText(0, "PDs");
-
-    for (int i=0; i < 5; i++) {
-        QTreeWidgetItem * pdItem = new QTreeWidgetItem();
-        pdItem->setText(0, QString("pd %1").arg(i+1));
-
-        rootPDsItem->addChild(pdItem);
-    }
-    rootPDsItem->setExpanded(true);
-*/
 
     m_scene = new QGraphicsScene(this);
 //    m_scene->addLine(-400,0,400,0, QPen(Qt::blue));
@@ -103,8 +83,10 @@ void MainWindow::on_actionExport_triggered()
     if( !filename.isEmpty() )
     {
         QPainter painter( &pixmap );
-        painter.setBrush(QBrush(QColor(Qt::white)));
+
+        painter.setBrush(QBrush(Settings::getBackgroundColor()));
         painter.drawRect(myRect);
+
         painter.setTransform(QTransform().scale(sx, sy));
         painter.translate(0, -rect.height());
         painter.setRenderHint(QPainter::Antialiasing);
@@ -217,7 +199,7 @@ void MainWindow::drawComponent(const Component& component)
 
     QGraphicsRectItem *rectItem = m_scene->addRect(
                 pt.x(),pt.y(),sz.width(),sz.height(),
-                QPen(Qt::NoPen),QBrush(QColor(0, 0, 255, 32), Qt::SolidPattern));
+                QPen(Qt::NoPen),QBrush(Settings::getComponentColor(), Qt::SolidPattern));
 
     //int ee = QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable;
     //qDebug() << ee;
@@ -258,7 +240,7 @@ void MainWindow::drawBoardArrays(const Scheme &scheme)
         qreal w = 60.432*SCALE;
         qreal h = 84.651*SCALE;
 
-        m_scene->addRect(x,y,w,h,QPen(Qt::NoPen),QBrush(QColor(40, 0, 76, 16), Qt::SolidPattern));
+        m_scene->addRect(x,y,w,h,QPen(Qt::NoPen),QBrush(Settings::getBoardColor(), Qt::SolidPattern));
         ++index;
     }
 
@@ -280,7 +262,7 @@ void MainWindow::on_actionOpen_triggered()
 
     //QString fileName("testnk.xml");
     QFile file(fileName);
-    if(!file.open(QFile::ReadOnly | QFile::Text)){
+    if (!file.open(QFile::ReadOnly | QFile::Text)){
         qDebug() << "Cannot read file " << fileName << ". Error:" << file.errorString();
 
         QString messageText = QString("Cannot read the file %1.").arg(fileName);
@@ -295,10 +277,45 @@ void MainWindow::on_actionOpen_triggered()
         return;
     }
 
-    Scheme scheme;
-    XmlBoardReader parser(&scheme);
+  //  Scheme scheme;
+    delete m_scheme;
+    ui->treeWidget->clear();
+
+    m_scheme = new Scheme;
+    XmlBoardReader parser(m_scheme);
     parser.read(&file);
     //parser.print();
 
-    addScheme(scheme);
+    addScheme(*m_scheme);
 }
+
+void MainWindow::on_actionSettings_triggered()
+{
+    SettingsDialog settings(this);
+    settings.setWindowTitle("MySettings");
+
+    if (settings.exec() == QDialog::Accepted) {
+
+        Settings::setBoardColor(settings.getBoardColor());
+        Settings::setComponentColor(settings.getComponentColor());
+        Settings::setBackgroundColor(settings.getBackgroundColor());
+        Settings::setSmoothZoom(settings.getSmoothZoom());
+
+        Settings::save();
+        GraphicsView::setSmoothZoom(Settings::getSmoothZoom());
+
+
+        m_scene->clear();
+        ui->treeWidget->clear();
+        if (m_scheme)
+            addScheme(*m_scheme);
+    }
+}
+
+void MainWindow::on_actionQuit_triggered()
+{
+
+    ui->treeWidget->clear();
+    m_scene->clear();
+}
+

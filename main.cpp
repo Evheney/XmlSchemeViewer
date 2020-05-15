@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "parser.h"
 #include "scheme.h"
+#include "settings.h"
 #include "xmlboardreader.h"
 
 #include <QDebug>
@@ -33,6 +34,8 @@ int main(int argc, char *argv[])
 //    XmlBoardReader parser(&scheme);
 //    parser.read(&file);
 //    parser.print();
+
+    Settings::load();
 
     MainWindow w;
     w.show();
