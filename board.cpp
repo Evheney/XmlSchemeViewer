@@ -193,6 +193,16 @@ BoardArray *Board::getBoardArray(int index) const
     return nullptr;
 }
 
+BoardGroup *Board::getBoardGroup(const int grName)
+{
+    for (BoardGroup * gr : m_boardGroupList) {
+        if (gr->getGrName() == grName)
+            return gr;
+    }
+
+    return nullptr;
+}
+
 double Board::boardWidth() const
 {
     return m_info.boardWidth();

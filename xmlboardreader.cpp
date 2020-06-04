@@ -102,6 +102,8 @@ void XmlBoardReader::readBoardArrays()
     while (reader.readNextStartElement()){
         qDebug() << reader.name();
         if (reader.name() == k_group){
+            int grn = reader.attributes().value("name").toInt();
+            readBoardGroupInfo();
 
             while (reader.readNextStartElement()){
                 qDebug() << reader.name();
@@ -111,7 +113,7 @@ void XmlBoardReader::readBoardArrays()
                     double x = reader.attributes().value("x").toDouble();
                     double y = reader.attributes().value("y").toDouble();
                     double rot = reader.attributes().value("rot").toDouble();
-                    BoardArray *ba = new BoardArray(num, name, x,y,rot);
+                    BoardArray *ba = new BoardArray(num, name, x,y,rot,grn);
                     scheme->addBoardArray(ba);
                     reader.skipCurrentElement();
                 }
@@ -122,6 +124,21 @@ void XmlBoardReader::readBoardArrays()
         else
             reader.skipCurrentElement();
     }
+}
+
+void XmlBoardReader::readBoardGroupInfo()
+{
+    qDebug() << reader.name();
+
+    int grName = reader.attributes().value("name").toInt();
+    double grw = reader.attributes().value("w").toDouble();
+    double grh = reader.attributes().value("h").toDouble();
+    double grx = reader.attributes().value("x").toDouble();
+    double gry = reader.attributes().value("y").toDouble();
+
+    BoardGroup *gr= new BoardGroup(grName,grw,grh,grx,gry);
+    scheme->addBoardGroup(gr);
+
 }
 
 void XmlBoardReader::readPds(){
@@ -176,25 +193,25 @@ void XmlBoardReader::readFootprints(){
             Footprint * elem2 = new Footprint;
 
             elem2->setFootName (
-                    reader.attributes().value("name").toString());
+                        reader.attributes().value("name").toString());
             elem2->setBodyHeight (
-                    reader.attributes().value("bodyheight").toDouble());
+                        reader.attributes().value("bodyheight").toDouble());
             elem2->setBodyWidth (
-                    reader.attributes().value("bodywidth").toDouble());
+                        reader.attributes().value("bodywidth").toDouble());
 
             while (reader.readNextStartElement()){
                 if (reader.name() == "pin") {
                     Pin *pin = new Pin;
                     pin->setPinName (
-                            reader.attributes().value("name").toString());
+                                reader.attributes().value("name").toString());
                     pin->setPiny (
-                            reader.attributes().value("y").toDouble());
+                                reader.attributes().value("y").toDouble());
                     pin->setPinx (
-                            reader.attributes().value("x").toDouble());
+                                reader.attributes().value("x").toDouble());
                     pin->setPinrot (
-                            reader.attributes().value("rot").toDouble());
+                                reader.attributes().value("rot").toDouble());
                     pin->setPinpd (
-                            reader.attributes().value("pd").toInt());
+                                reader.attributes().value("pd").toInt());
 
                     elem2->addPin(pin);
                     reader.skipCurrentElement();

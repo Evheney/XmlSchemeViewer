@@ -35,6 +35,7 @@ class Board {
 
     Footprint* getFootprint(const QString& part);
     BoardArray* getBoardArray(int index) const;
+    BoardGroup*getBoardGroup(const int grName);
 
     double boardWidth() const;
     double boardHeight() const;

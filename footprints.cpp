@@ -81,7 +81,7 @@ double Pin::piny() const
 
 void Pin::setPiny(double piny)
 {
-    m_piny = piny;
+    m_piny = piny-piny/8;
 }
 
 double Pin::pinx() const
@@ -91,7 +91,7 @@ double Pin::pinx() const
 
 void Pin::setPinx(double pinx)
 {
-    m_pinx = pinx;
+    m_pinx = pinx-pinx/8;
 }
 
 double Pin::pinrot() const

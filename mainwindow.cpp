@@ -5,6 +5,7 @@
 #include "xmlboardreader.h"
 #include "settings.h"
 #include "graphicsview.h"
+#include "boardgroup.h"
 
 #include <QDebug>
 #include <QFile>
@@ -234,13 +235,20 @@ void MainWindow::drawBoardArrays(const Scheme &scheme)
         if(ba == nullptr) {
             break;
         }
+        int grName = ba->getGrName();
+        Board* board = scheme.getBoard();
+        BoardGroup* gr = board->getBoardGroup(grName);
 
-        qreal x = (ba->getX() + 2.076)*SCALE;
-        qreal y = (ba->getY() + 13.198)*SCALE;
-        qreal w = 60.432*SCALE;
-        qreal h = 84.651*SCALE;
+
+
+        qreal x = (ba->getX() + gr->getGrx())*SCALE;
+        qreal y = (ba->getY() + gr->getGry())*SCALE;
+        qreal w = gr->getGrw() *SCALE;
+        qreal h = gr->getGrh()*SCALE;
+
 
         m_scene->addRect(x,y,w,h,QPen(Qt::NoPen),QBrush(Settings::getBoardColor(), Qt::SolidPattern));
+        m_scene->addRect(x,y,w,h,QPen(Qt::SolidLine),QBrush(Settings::getBoardColor(), Qt::SolidPattern));
         ++index;
     }
 

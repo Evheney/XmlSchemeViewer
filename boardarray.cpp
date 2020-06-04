@@ -1,12 +1,12 @@
 #include "boardarray.h"
 
 BoardArray::BoardArray()
-    : num(0), name(""), x(0), y(0), rotate(0)
+    : num(0), name(""), x(0), y(0), rotate(0), grName(0)
 {
 }
 
-BoardArray::BoardArray(int n, QString nm, double xx, double yy, double rot)
-    : num(n), name(nm), x(xx), y(yy), rotate(rot)
+BoardArray::BoardArray(int n, QString nm, double xx, double yy, double rot, int grN)
+    : num(n), name(nm), x(xx), y(yy), rotate(rot), grName(grN)
 {
 
 }
@@ -54,6 +54,11 @@ double BoardArray::getY() const
 double BoardArray::getRotate() const
 {
     return rotate;
+}
+
+int BoardArray::getGrName() const
+{
+    return grName;
 }
 
 //void BoardArray::setRotate(double value)

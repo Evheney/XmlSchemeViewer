@@ -26,6 +26,7 @@ private:
 
     void readEpmXrayInfo();
     void readBoardArrays();
+    void readBoardGroupInfo();
     void readPds();
     void readFootprints();
     void readComponentsData();
