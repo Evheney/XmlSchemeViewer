@@ -19,6 +19,7 @@ void Component::addPin(qreal x, qreal y, qreal radius)
 {
     QRectF r = QRectF(QPointF(x+offsetx,y+offsety), QSizeF(radius*2, radius*2));
     circles.append(r);
+    qDebug() <<"Offset x"<<offsetx <<"offsety"<<offsety<<"Radius"<<radius;
 }
 
 QPointF Component::getPoint() const

@@ -38,6 +38,11 @@ BoardArray *Scheme::getBoardArray(int index) const
     return board->getBoardArray(index);
 }
 
+Pd *Scheme::getPd(int pd) const
+{
+    return board->getPd(pd);
+}
+
 void Scheme::addEpmXrayInfo(const EpmXrayInfo &info)
 {
     board->addEpmXrayInfo(info);

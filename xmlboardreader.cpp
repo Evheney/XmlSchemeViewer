@@ -201,17 +201,24 @@ void XmlBoardReader::readFootprints(){
 
             while (reader.readNextStartElement()){
                 if (reader.name() == "pin") {
+
+                    // Get PD with pd
+                    int pd = reader.attributes().value("pd").toInt();
+                    Pd * pdElem = scheme->getPd(pd);
+                    const double offsetX = - pdElem->m_roiW / 2.;
+                    const double offsetY = - pdElem->m_roiH / 2.;
+
                     Pin *pin = new Pin;
                     pin->setPinName (
                                 reader.attributes().value("name").toString());
                     pin->setPiny (
-                                reader.attributes().value("y").toDouble());
+                                reader.attributes().value("y").toDouble() + offsetY);
                     pin->setPinx (
-                                reader.attributes().value("x").toDouble());
+                                reader.attributes().value("x").toDouble() + offsetX);
                     pin->setPinrot (
                                 reader.attributes().value("rot").toDouble());
                     pin->setPinpd (
-                                reader.attributes().value("pd").toInt());
+                                pd);
 
                     elem2->addPin(pin);
                     reader.skipCurrentElement();

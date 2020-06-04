@@ -22,6 +22,7 @@ public:
 
     Board* getBoard() const;
     BoardArray* getBoardArray(int index) const;
+    Pd* getPd(int pd) const;
 
     void addEpmXrayInfo(const EpmXrayInfo& info);
     void addBoardGroup(BoardGroup* gr);

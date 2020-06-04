@@ -203,6 +203,15 @@ BoardGroup *Board::getBoardGroup(const int grName)
     return nullptr;
 }
 
+Pd *Board::getPd(int pd) const
+{
+    for(Pd* pdElem : m_pdList) {
+        if (pdElem->m_num == pd)
+            return pdElem;
+    }
+    return nullptr;
+}
+
 double Board::boardWidth() const
 {
     return m_info.boardWidth();
