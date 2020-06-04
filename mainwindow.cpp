@@ -212,7 +212,7 @@ void MainWindow::drawComponent(const Component& component)
         QRectF r = component.getCircle(index);
         r.adjust(pt.x(),pt.y(), pt.x(),pt.y());
 
-        QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r);
+        QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r, QPen(QColor(Qt::cyan)));
         ellipseItem->setParentItem(rectItem);
     }
 
