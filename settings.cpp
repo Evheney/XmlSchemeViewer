@@ -60,7 +60,9 @@ void Settings::save()
     QColor componentColors = getComponentColor();
     QColor backgroundColors = getBackgroundColor();
 
-    QSettings settings("XMLReader", "Colors");
+//    QSettings settings("XMLReader", "Colors");
+    QSettings settings("XmlSchemeViewer.ini",
+                         QSettings::IniFormat);
 
     settings.beginGroup("Colors");
     settings.setValue(boardColorStr, getBoardColor().rgba());
@@ -74,7 +76,10 @@ void Settings::save()
 
 void Settings::load()
 {
-    QSettings settings("XMLReader", "Colors");
+    //QSettings settings("XMLReader", "Colors");
+    QSettings settings("XmlSchemeViewer.ini",
+                         QSettings::IniFormat);
+
 
     settings.beginGroup("Colors");
     if(settings.contains(boardColorStr)){
