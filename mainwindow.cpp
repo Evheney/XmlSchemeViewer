@@ -207,13 +207,23 @@ void MainWindow::drawComponent(const Component& component)
     rectItem->setFlags(QGraphicsItem::ItemIsFocusable | QGraphicsItem::ItemIsSelectable);
     rectItem->setFocus();
 
+    /*
+     * 2DELETE
+
     const int circleCount = component.getNumCircles();
     for (int index=0; index<circleCount; ++index) {
         QRectF r = component.getCircle(index);
         r.adjust(pt.x(),pt.y(), pt.x(),pt.y());
 
-        QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r, QPen(QColor(Qt::cyan)));
+        QGraphicsEllipseItem * ellipseItem = m_scene->addEllipse(r);
         ellipseItem->setParentItem(rectItem);
+    }*/
+
+    const int numShapes = component.getNumShapes();
+    for(int index = 0; index<numShapes; ++index) {
+        Shape* sh = component.getShape(index);
+        QAbstractGraphicsShapeItem* item = sh->getItem(m_scene, pt);
+        item->setParentItem(rectItem);
     }
 
     // TODO: rotate only if necessary

@@ -5,6 +5,7 @@
 
 #include <QRectF>
 #include <QList>
+#include "shape.h"
 
 class Component
 {
@@ -12,7 +13,7 @@ public:
     Component();
     ~Component();
 
-    void addPin(qreal x, qreal y, qreal radius);
+    void addPin(qreal x, qreal y, qreal dia);
     //void setBoardArray()
 
     void setNumber(int n);
@@ -24,8 +25,8 @@ public:
 
     QPointF getPoint() const;
     QSizeF getSize() const;
-    QRectF getCircle(int index) const;
-    int getNumCircles() const;
+    int getNumShapes() const;
+    Shape* getShape(int index) const;
     double rotateAngle() const;
 
     QString getRealName() const;
@@ -33,6 +34,7 @@ public:
 
     BoardArray getBoardArray() const;
     void setBoardArray(const BoardArray &value);
+
 
 protected:
     BoardArray boardArray;
@@ -43,8 +45,7 @@ protected:
     int number;
     QPointF point;
     QSizeF size;
-    //QRectF rect;
-    QList<QRectF> circles;
+    QList<Shape*> shapes;
     double rotAngle; // degree
 
     void calcOffset() {

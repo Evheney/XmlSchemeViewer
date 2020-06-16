@@ -7,6 +7,12 @@ Footprint::Footprint()
 
 }
 
+Footprint::~Footprint()
+{
+    for (auto* item : pins)
+        delete item;
+}
+
 QList<Pin *> Footprint::getPins() const
 {
     return pins;

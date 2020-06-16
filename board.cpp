@@ -152,19 +152,21 @@ Component *Board::createComponent(int index)
     cc->setSize(fpt->bodyWidth()*SCALE, fpt->bodyHeight()*SCALE);
     cc->setRotateAngle(cdata->getRot());
 
-    qreal radius = 1.;
+    qreal dia = 1.;
     Pin * pin0 = fpt->getPins().at(0);
     if (pin0) {
         int pd = pin0->pinpd();
         for (Pd * item : m_pdList) {
             if (item->m_num == pd) {
-                radius = item->m_shapeDia/2.;
+               // radius = item->m_shapeDia/2.;
+               // radius = item->m_roiH/2.;
+                dia = item->m_shapeDia;
                 break;
             }
         }
     }
     for(Pin* pin : fpt->getPins()) {
-        cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, radius*SCALE);
+        cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, dia*SCALE);
     }
 
     // footprint

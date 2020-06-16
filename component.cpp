@@ -1,4 +1,6 @@
 #include "component.h"
+#include "shaperect.h"
+#include "shapecircle.h"
 #include <QDebug>
 
 Component::Component()
@@ -13,13 +15,19 @@ Component::Component()
 Component::~Component()
 {
     qDebug() << "Component destructor";
+
+    for(auto* item: shapes) {
+        delete item;
+    }
 }
 
-void Component::addPin(qreal x, qreal y, qreal radius)
+void Component::addPin(qreal x, qreal y, qreal dia)
 {
-    QRectF r = QRectF(QPointF(x+offsetx,y+offsety), QSizeF(radius*2, radius*2));
-    circles.append(r);
-    qDebug() <<"Offset x"<<offsetx <<"offsety"<<offsety<<"Radius"<<radius;
+    Shape* circle = new ShapeCircle(x,y,dia);
+    circle->setRect(QRectF(QPointF(x+offsetx,y+offsety), QSizeF(dia, dia)));
+    shapes.append(circle);
+
+    qDebug() <<"Offset x"<<offsetx <<"offsety"<<offsety<<"Diameter"<<dia;
 }
 
 QPointF Component::getPoint() const
@@ -32,13 +40,14 @@ QSizeF Component::getSize() const
     return size;
 }
 
-QRectF Component::getCircle(int index) const
+int Component::getNumShapes() const
 {
-    return circles.at(index);
+    return shapes.size();
 }
 
-int Component::getNumCircles() const {
-    return circles.size();
+Shape *Component::getShape(int index) const
+{
+    return shapes.at(index);
 }
 
 void Component::setRealName(const QString &value)

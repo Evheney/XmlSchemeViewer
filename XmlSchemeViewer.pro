@@ -41,6 +41,10 @@ SOURCES += \
         scene.cpp \
         scheme.cpp \
         settings.cpp \
+        shape.cpp \
+        shapecircle.cpp \
+        shapepoly.cpp \
+        shaperect.cpp \
         xmlboardreader.cpp
 
 HEADERS += \
@@ -59,6 +63,10 @@ HEADERS += \
         scene.h \
         scheme.h \
         settings.h \
+        shape.h \
+        shapecircle.h \
+        shapepoly.h \
+        shaperect.h \
         xmlboardreader.h
 
 FORMS += \

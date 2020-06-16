@@ -34,6 +34,7 @@ class Footprint
 {
 public:
     Footprint();
+    ~Footprint();
 
     QString footName() const;
     void setFootName(const QString &footName);
@@ -58,6 +59,7 @@ private:
     double m_bodyWidth;
 
     QList<Pin*> pins;
+
 };
 
 #endif // FOOTPRINTS_H
