@@ -5,18 +5,22 @@
 
 class ShapeRect : public Shape
 {
-
 public:
+    ShapeRect(double x,double y,double w,double h,double rot);
+    void setRectW(double value);
+    void setRectH(double value);
+    void setRectX(double value);
+    void setRectY(double value);
+    void setRot(double value);
+
+    QAbstractGraphicsShapeItem *getItem(QGraphicsScene *scene, const QPointF& pt) override;
 
 private:
-    double rectW;
-    double rectH;
     double rectX;
     double rectY;
-
-    // Shape interface
-public:
-    ShapeRect();
+    double rectW;
+    double rectH;
+    double rot;
 };
 
 #endif // SHAPERECT_H

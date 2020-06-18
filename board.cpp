@@ -4,7 +4,7 @@
 
 Board::~Board()
 {
-    qDebug() << "Board Destructor";
+    //qDebug() << "Board Destructor";
 
     for (BoardGroup* item: m_boardGroupList)
         delete item;
@@ -19,7 +19,7 @@ Board::~Board()
     for (ComponentData* item : m_componentDataList)
         delete item;
 
-    qDebug() << "End Board Destructor";
+   // qDebug() << "End Board Destructor";
 }
 
 void Board::addEpmXrayInfo(const EpmXrayInfo &info)
@@ -42,6 +42,11 @@ void Board::addComponentData(ComponentData *cdata)
     m_componentDataList.append(cdata);
 }
 
+void Board::addPart(QString partName, QString footprintName)
+{
+    m_partMap.insert(partName, footprintName);
+}
+
 //void Board::addBoardName(BoardArray *board_info)
 //{
 //    m_BoardInfoList.append(board_info);
@@ -59,7 +64,7 @@ void Board::addBoardArray(BoardArray *ba)
 
 void Board::print() const
 {
-    qDebug() << "Print board infos";
+   // qDebug() << "Print board infos";
     m_info.print();
 
     for(Pd* elem: m_pdList) {
@@ -102,7 +107,7 @@ Component *Board::createComponent(int index)
     }
 
 
-    qDebug() << "\nBoard createComponent " << index;
+  //  qDebug() << "\nBoard createComponent " << index;
 
     //if (index < 0 || index >= m_footprintsList.size())
     //    return nullptr;
@@ -152,22 +157,51 @@ Component *Board::createComponent(int index)
     cc->setSize(fpt->bodyWidth()*SCALE, fpt->bodyHeight()*SCALE);
     cc->setRotateAngle(cdata->getRot());
 
+/*
     qreal dia = 1.;
+    qreal w=0.;
+    qreal h=0.;
     Pin * pin0 = fpt->getPins().at(0);
     if (pin0) {
         int pd = pin0->pinpd();
         for (Pd * item : m_pdList) {
-            if (item->m_num == pd) {
+            if (item->m_num == pd && item->m_shapetype =="cir") {
                // radius = item->m_shapeDia/2.;
                // radius = item->m_roiH/2.;
                 dia = item->m_shapeDia;
-                break;
+                for(Pin* pin : fpt->getPins()) {
+                    cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, dia*SCALE);
+
+                }
+              //  break;
+            }
+            else if(item->m_num == pd && (item->m_shapetype == "rc" || item->m_shapetype== "rec" ||item->m_shapetype=="ob")){
+                w=item->m_shapeW;
+                h=item->m_shapeH;
+                for(Pin* pin : fpt->getPins()) {
+                    cc->addRect(pin->pinx()*SCALE, pin->piny()*SCALE, w*SCALE, h*SCALE);
+
+                }
+               // break;
+
             }
         }
     }
-    for(Pin* pin : fpt->getPins()) {
-        cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, dia*SCALE);
+*/
+    for (auto pin: fpt->getPins()) {
+        int pdNum = pin->pinpd();
+        auto pdItem = getPd(pdNum);
+        if (pdItem->m_shapetype == "cir") {
+            cc->addPin(pin->pinx()*SCALE, pin->piny()*SCALE, pdItem->m_shapeDia*SCALE);
+        }
+        else if (pdItem->m_shapetype == "rc" || pdItem->m_shapetype== "rec" || pdItem->m_shapetype=="ob") {
+            cc->addRect(pin->pinx()*SCALE, pin->piny()*SCALE,
+                        pdItem->m_shapeW*SCALE, pdItem->m_shapeH*SCALE, pin->pinrot()+pdItem->m_roiRot);
+        }
+        //else poly {}
     }
+
+
 
     // footprint
         // pins
@@ -178,8 +212,12 @@ Component *Board::createComponent(int index)
 
 Footprint *Board::getFootprint(const QString &partName)
 {
+    QString footName = partName;
+    if (m_partMap.contains(partName))
+        footName = m_partMap.value(partName);
+
     for (Footprint * fpt : m_footprintsList) {
-        if (fpt->footName() == partName)
+        if (fpt->footName() == footName)
             return fpt;
     }
 

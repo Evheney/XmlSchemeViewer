@@ -30,6 +30,7 @@ public:
     void addPdElem(Pd* elem);
     void addFootprintElem(Footprint * elem2);
     void addComponentElem(ComponentData*cdata);
+    void addPartElem(QString partName, QString footprintName);
 
     //void addBoardName(BoardArray* board_info);
     void print();

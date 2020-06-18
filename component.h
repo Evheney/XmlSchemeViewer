@@ -1,10 +1,11 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include "boardarray.h"
-
 #include <QRectF>
 #include <QList>
+
+#include "boardarray.h"
+//#include "footprints.h"
 #include "shape.h"
 
 class Component
@@ -14,6 +15,7 @@ public:
     ~Component();
 
     void addPin(qreal x, qreal y, qreal dia);
+    void addRect(qreal x, qreal y, qreal w, qreal h, qreal rot);
     //void setBoardArray()
 
     void setNumber(int n);
@@ -34,6 +36,7 @@ public:
 
     BoardArray getBoardArray() const;
     void setBoardArray(const BoardArray &value);
+
 
 
 protected:

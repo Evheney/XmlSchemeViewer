@@ -29,6 +29,7 @@ private:
     void readBoardGroupInfo();
     void readPds();
     void readFootprints();
+    void readParts();
     void readComponentsData();
 
     void readBoard();

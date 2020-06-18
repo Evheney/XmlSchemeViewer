@@ -20,6 +20,8 @@ public:
     double m_shapeperi;
     double m_shapearea;
     double m_shapeDia;
+    double m_shapeW;
+    double m_shapeH;
 
     void print() const;
 

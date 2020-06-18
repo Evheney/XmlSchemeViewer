@@ -23,6 +23,7 @@ class Board {
     void addPdElem(Pd* elem);
     void addFootprintElem(Footprint * elem2);
     void addComponentData(ComponentData* cdata);
+    void addPart(QString partName, QString footprintName);
 
     //void addBoardName(BoardArray* board_info);
     void addBoardGroup(BoardGroup* gr);
@@ -49,6 +50,8 @@ private:
 
     QList<Pd*> m_pdList;
     QList<Footprint*> m_footprintsList;
+    //QMap<QString, Footprint*> m_footprintsMap; TODO: use map instead of list
+    QMap<QString, QString> m_partMap;
     //QList<BoardArray*> m_BoardInfoList;
     QList<ComponentData*> m_componentDataList;
 };

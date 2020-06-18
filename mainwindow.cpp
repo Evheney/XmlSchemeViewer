@@ -70,8 +70,8 @@ void MainWindow::on_actionExport_triggered()
 
     qreal sx = 1; //m_view->transform().m11();
     qreal sy = -1; //m_view->transform().m22();
-    qDebug() << "SX : " << sx;
-    qDebug() << "SY : " << sy;
+    //qDebug() << "SX : " << sx;
+    //qDebug() << "SY : " << sy;
     myRect.setSize(QSize(myRect.width()*sx, myRect.height()*abs(sy)));
 
     //qDebug() << "RenderPng myRect: " << myRect;
@@ -175,7 +175,7 @@ void MainWindow::addScheme(const Scheme &scheme)
 
 void MainWindow::populateTree(QTreeWidgetItem * rootItem, const Component& component)
 {
-    qDebug() << "populateTree() << " << component.getPartName();
+   // qDebug() << "populateTree() << " << component.getPartName();
 
     QTreeWidgetItem *item = new QTreeWidgetItem();
     item->setText(0, component.getPartName());

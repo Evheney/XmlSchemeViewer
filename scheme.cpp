@@ -73,6 +73,11 @@ void Scheme::addComponentElem(ComponentData *cdata)
     board->addComponentData(cdata);
 }
 
+void Scheme::addPartElem(QString partName, QString footprintName)
+{
+    board->addPart(partName, footprintName);
+}
+
 //void Scheme::addBoardName(BoardArray *board_info)
 //{
 //    board->addBoardName(board_info);

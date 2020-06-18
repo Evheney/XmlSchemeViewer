@@ -9,20 +9,20 @@ ShapeCircle::ShapeCircle(double X,double Y,double dia)
 
 }
 
-void ShapeCircle::setCircleDia(double value)
-{
-    circleDia = value;
-}
+//void ShapeCircle::setCircleDia(double value)
+//{
+//    circleDia = value;
+//}
 
-void ShapeCircle::setCircleY(double value)
-{
-    circleY = value;
-}
+//void ShapeCircle::setCircleY(double value)
+//{
+//    circleY = value;
+//}
 
-void ShapeCircle::setCircleX(double value)
-{
-    circleX = value;
-}
+//void ShapeCircle::setCircleX(double value)
+//{
+//    circleX = value;
+//}
 
 QAbstractGraphicsShapeItem *ShapeCircle::getItem(QGraphicsScene *s, const QPointF& pt)
 {

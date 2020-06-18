@@ -42,7 +42,7 @@ QString XmlBoardReader::errorString() const
 
 void XmlBoardReader::createComponents()
 {
-    qDebug() << "XmlBoardReader createComponetent";
+    //qDebug() << "XmlBoardReader createComponetent";
     scheme->createComponets();
 }
 
@@ -87,6 +87,9 @@ void XmlBoardReader::readEpmXrayInfo()
         else if(reader.name() == "footprints"){
             readFootprints();
         }
+        else if(reader.name() == "parts"){
+            readParts();
+        }
         else if(reader.name() == "components"){
             readComponentsData();
         }
@@ -100,13 +103,13 @@ void XmlBoardReader::readEpmXrayInfo()
 void XmlBoardReader::readBoardArrays()
 {
     while (reader.readNextStartElement()){
-        qDebug() << reader.name();
+        //qDebug() << reader.name();
         if (reader.name() == k_group){
             int grn = reader.attributes().value("name").toInt();
             readBoardGroupInfo();
 
             while (reader.readNextStartElement()){
-                qDebug() << reader.name();
+               // qDebug() << reader.name();
                 if (reader.name() == k_boardarray){
                     int num = reader.attributes().value("num").toInt();
                     QString name = reader.attributes().value("name").toString();
@@ -174,6 +177,10 @@ void XmlBoardReader::readPds(){
                             reader.attributes().value("area").toDouble();
                     elem->m_shapeDia =
                             reader.attributes().value("dia").toDouble();
+                    elem->m_shapeW =
+                            reader.attributes().value("w").toDouble();
+                    elem->m_shapeH =
+                            reader.attributes().value("h").toDouble();
                     reader.skipCurrentElement();
                 }
                 else
@@ -227,6 +234,20 @@ void XmlBoardReader::readFootprints(){
                     reader.skipCurrentElement();
             }
             scheme->addFootprintElem(elem2);
+        }
+        else
+            reader.skipCurrentElement();
+    }
+}
+
+void XmlBoardReader::readParts()
+{
+    while (reader.readNextStartElement()){
+        if (reader.name() == "part") {
+            QString partName = reader.attributes().value("name").toString();
+            QString footprintName = reader.attributes().value("footprint").toString();
+            scheme->addPartElem(partName, footprintName);
+            reader.skipCurrentElement();
         }
         else
             reader.skipCurrentElement();

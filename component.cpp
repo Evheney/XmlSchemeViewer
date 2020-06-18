@@ -14,7 +14,7 @@ Component::Component()
 
 Component::~Component()
 {
-    qDebug() << "Component destructor";
+    //qDebug() << "Component destructor";
 
     for(auto* item: shapes) {
         delete item;
@@ -27,7 +27,15 @@ void Component::addPin(qreal x, qreal y, qreal dia)
     circle->setRect(QRectF(QPointF(x+offsetx,y+offsety), QSizeF(dia, dia)));
     shapes.append(circle);
 
-    qDebug() <<"Offset x"<<offsetx <<"offsety"<<offsety<<"Diameter"<<dia;
+    //qDebug() <<"Add pin: Offset x"<<offsetx <<"offsety"<<offsety<<"Diameter"<<dia;
+}
+void Component::addRect(qreal x, qreal y, qreal w, qreal h, qreal rot)
+{
+    Shape* rect = new ShapeRect(x,y,w,h,rot);
+    rect->setRect(QRectF(QPointF(x+offsetx,y+offsety), QSizeF(w, h)));
+    shapes.append(rect);
+
+    qDebug() <<"Add rect: Offset x"<<offsetx <<"offsety"<<offsety<<"width"<<w<<"height"<<h;
 }
 
 QPointF Component::getPoint() const
