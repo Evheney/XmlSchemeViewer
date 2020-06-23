@@ -38,8 +38,22 @@ int main(int argc, char *argv[])
     Settings::load();
 
     MainWindow w;
-    w.show();
+
 //    w.addScheme(scheme);
 
+    if (QCoreApplication::arguments().size() == 2 ) {
+        QString fileName = QCoreApplication::arguments().at(1);
+        w.openScheme(fileName);
+    } else if (QCoreApplication::arguments().size() > 2) {
+        QString fromFileName = QCoreApplication::arguments().at(1);
+        QString toFileName = QCoreApplication::arguments().at(2);
+        if (w.openScheme(fromFileName)) {
+            if (w.exportTo(toFileName)) {
+                QApplication::quit();
+                return 1;
+            }
+        }
+    }
+    w.show();
     return a.exec();
 }

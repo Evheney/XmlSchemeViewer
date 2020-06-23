@@ -27,9 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->treeWidget->setHeaderLabel("Data");
 
     m_scene = new QGraphicsScene(this);
-//    m_scene->addLine(-400,0,400,0, QPen(Qt::blue));
-//    m_scene->addLine(0,-400,0,400, QPen(Qt::blue));
-//    m_scene->setSceneRect(-800,-400,1600,800);
+    //    m_scene->addLine(-400,0,400,0, QPen(Qt::blue));
+    //    m_scene->addLine(0,-400,0,400, QPen(Qt::blue));
+    //    m_scene->setSceneRect(-800,-400,1600,800);
 
 
     m_view = new GraphicsView(this);
@@ -64,6 +64,18 @@ void MainWindow::on_actionFit_to_content_triggered()
 
 void MainWindow::on_actionExport_triggered()
 {
+    QString filename = QFileDialog::getSaveFileName(
+                nullptr, tr("Save As Image"), "Image", //tr("PNG Image (*.png)"));
+    tr("PNG Images (*.png);;BMP images (*.bmp);;JPG images (*.jpg)"));
+
+    if( !filename.isEmpty() )
+    {
+        exportTo(filename);
+    }
+}
+
+bool MainWindow::exportTo(const QString& filename)
+{
     // TODO: move to Scene RenderPng()
     QRectF rect(m_scene->itemsBoundingRect());
     QRect myRect = rect.toRect();
@@ -77,35 +89,30 @@ void MainWindow::on_actionExport_triggered()
     //qDebug() << "RenderPng myRect: " << myRect;
 
     QPixmap pixmap = QPixmap(myRect.size());
-    QString filename = QFileDialog::getSaveFileName(
-                nullptr, tr("Save As Image"), "Image", tr("PNG Image (*.png)"));
-                //"PNG Images (*.png);;BMP images (*.bmp);;JPG images (*.jpg)");
 
-    if( !filename.isEmpty() )
-    {
-        QPainter painter( &pixmap );
 
-        painter.setBrush(QBrush(Settings::getBackgroundColor()));
-        painter.drawRect(myRect);
+    QPainter painter( &pixmap );
 
-        painter.setTransform(QTransform().scale(sx, sy));
-        painter.translate(0, -rect.height());
-        painter.setRenderHint(QPainter::Antialiasing);
-        m_scene->render( &painter, pixmap.rect(), myRect, Qt::KeepAspectRatio );
-        painter.end();
+    painter.setBrush(QBrush(Settings::getBackgroundColor()));
+    painter.drawRect(myRect);
 
-        pixmap.save(filename,"PNG");
+    painter.setTransform(QTransform().scale(sx, sy));
+    painter.translate(0, -rect.height());
+    painter.setRenderHint(QPainter::Antialiasing);
+    m_scene->render( &painter, pixmap.rect(), myRect, Qt::KeepAspectRatio );
+    painter.end();
 
-//            QFileInfo fileInfo(filename);
-//            QString ext = fileInfo.completeSuffix();
+    QFileInfo fileInfo(filename);
+    QString ext = fileInfo.completeSuffix();
 
-//            if (ext.toLower() == "bmp")
-//                pixmap.save(filename,"BMP");
-//            else if (ext.toLower() == "png")
-//                pixmap.save(filename,"PNG");
-//            else
-//                pixmap.save(filename,"JPG");
-    }
+    if (ext.toLower() == "bmp")
+        return pixmap.save(filename,"BMP");
+    else if (ext.toLower() == "png")
+        return pixmap.save(filename,"PNG");
+    else
+        return pixmap.save(filename,"JPG");
+
+    //return pixmap.save(filename, "PNG");
 }
 
 QList<Component*> getComponentList(int num, const Scheme& scheme)
@@ -121,13 +128,15 @@ QList<Component*> getComponentList(int num, const Scheme& scheme)
     return compList;
 }
 
-void MainWindow::addScheme(const Scheme &scheme)
+bool MainWindow::addScheme(const Scheme &scheme)
 {
     const double SCALE = 10;
     const double sceneOffsX = 20;
     const double sceneOffsY = 20;
 
     Board * board = scheme.getBoard();
+    if (!board)
+        return false;
 
     m_scene->setSceneRect(-sceneOffsX,-sceneOffsY,
                           board->boardWidth()*SCALE + sceneOffsX,
@@ -170,18 +179,19 @@ void MainWindow::addScheme(const Scheme &scheme)
     }
 
     rootComponents->setExpanded(true);
+    return true;
 }
 
 
 void MainWindow::populateTree(QTreeWidgetItem * rootItem, const Component& component)
 {
-   // qDebug() << "populateTree() << " << component.getPartName();
+    // qDebug() << "populateTree() << " << component.getPartName();
 
     QTreeWidgetItem *item = new QTreeWidgetItem();
     item->setText(0, component.getPartName());
     rootItem->addChild(item);
 
-/*    const QString treesize = component.getPartName();
+    /*    const QString treesize = component.getPartName();
     //const int circleCount = component.getNumCircles();
     for(int i=0;i<treesize;i++){
         QTreeWidgetItem * rootFPsItem = new QTreeWidgetItem(ui->treeWidget);
@@ -262,11 +272,11 @@ void MainWindow::drawBoardArrays(const Scheme &scheme)
         ++index;
     }
 
-//    const int size = scheme.getBoardArraySize();
-//    for (int index=0; index < size; ++index) {
-//        BoardArray* ba = scheme.getBoardArray(index);
-//        //drawBoard(*ba);
-//    }
+    //    const int size = scheme.getBoardArraySize();
+    //    for (int index=0; index < size; ++index) {
+    //        BoardArray* ba = scheme.getBoardArray(index);
+    //        //drawBoard(*ba);
+    //    }
 
 }
 
@@ -276,7 +286,13 @@ void MainWindow::on_actionOpen_triggered()
     QString fileName = QFileDialog::getOpenFileName(
                 this, tr("Open ePMXray file"), "", tr("XML file (*.xml)"));
 
-    m_scene->clear();
+    openScheme(fileName);
+}
+
+bool MainWindow::openScheme(const QString& fileName)
+{
+    if (m_scene)
+        m_scene->clear();
 
     //QString fileName("testnk.xml");
     QFile file(fileName);
@@ -292,10 +308,10 @@ void MainWindow::on_actionOpen_triggered()
         msgBox.setInformativeText(errorText);
         msgBox.setStandardButtons(QMessageBox::Ok);
         msgBox.exec();
-        return;
+        return false;
     }
 
-  //  Scheme scheme;
+    //  Scheme scheme;
     delete m_scheme;
     ui->treeWidget->clear();
 
@@ -304,7 +320,7 @@ void MainWindow::on_actionOpen_triggered()
     parser.read(&file);
     //parser.print();
 
-    addScheme(*m_scheme);
+    return addScheme(*m_scheme);
 }
 
 void MainWindow::on_actionSettings_triggered()

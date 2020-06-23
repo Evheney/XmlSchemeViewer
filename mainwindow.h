@@ -18,7 +18,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void addScheme(const Scheme& scheme);
+
+    bool openScheme(const QString& fileName);
+    bool addScheme(const Scheme& scheme);
+    bool exportTo(const QString& filename);
+
     void populateTree(QTreeWidgetItem *root, const Component& component);
     void drawComponent (const Component& component);
     void drawBoardArrays(const Scheme& scheme);
