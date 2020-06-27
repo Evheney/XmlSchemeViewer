@@ -65,9 +65,9 @@ void Settings::save()
                          QSettings::IniFormat);
 
     settings.beginGroup("Colors");
-    settings.setValue(boardColorStr, getBoardColor().rgba());
-    settings.setValue(componentColorStr, getComponentColor().rgba());
-    settings.setValue(backgroundColorStr, getBackgroundColor().rgba());
+    settings.setValue(boardColorStr, getBoardColor().name(QColor::HexArgb));
+    settings.setValue(componentColorStr, getComponentColor().name(QColor::HexArgb));
+    settings.setValue(backgroundColorStr, getBackgroundColor().name(QColor::HexArgb));
     settings.endGroup();
     qDebug() << "Save " << boardColorStr << boardColors
              << componentColorStr << componentColors
@@ -80,23 +80,22 @@ void Settings::load()
     QSettings settings("XmlSchemeViewer.ini",
                          QSettings::IniFormat);
 
-
     settings.beginGroup("Colors");
     if(settings.contains(boardColorStr)){
         QColor color;
-        color.setRgba(settings.value(boardColorStr).toUInt());
+        color.setNamedColor(settings.value(boardColorStr,color.name(QColor::HexArgb)).toString());
         setBoardColor(color);
         qDebug() << "Set " << boardColorStr << color;
     }
     if(settings.contains(componentColorStr)){
         QColor color;
-        color.setRgba(settings.value(componentColorStr).toUInt());
+        color.setNamedColor(settings.value(componentColorStr,color.name(QColor::HexArgb)).toString());
         setComponentColor(color);
         qDebug() << "Set " << componentColorStr << color;
     }
     if(settings.contains(backgroundColorStr)){
         QColor color;
-        color.setRgba(settings.value(backgroundColorStr).toUInt());
+        color.setNamedColor(settings.value(backgroundColorStr,color.name(QColor::HexArgb)).toString());
         setBackgroundColor(color);
         qDebug() << "Set " << backgroundColorStr << color;
     }
