@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        aboutwnd.cpp \
         board.cpp \
         boardarray.cpp \
         boardgroup.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
         xmlboardreader.cpp
 
 HEADERS += \
+        aboutwnd.h \
         board.h \
         boardarray.h \
         boardgroup.h \
@@ -70,6 +72,7 @@ HEADERS += \
         xmlboardreader.h
 
 FORMS += \
+        aboutwnd.ui \
         mainwindow.ui \
         settings.ui
 

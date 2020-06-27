@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "graphicsview.h"
 #include "boardgroup.h"
+#include "aboutwnd.h"
 
 #include <QDebug>
 #include <QFile>
@@ -39,11 +40,13 @@ MainWindow::MainWindow(QWidget *parent)
     m_view ->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
 
     ui->viewLayout->addWidget(m_view);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete m_scheme;
 }
 
 
@@ -348,8 +351,13 @@ void MainWindow::on_actionSettings_triggered()
 
 void MainWindow::on_actionQuit_triggered()
 {
-
     ui->treeWidget->clear();
     m_scene->clear();
 }
 
+
+void MainWindow::on_actionAbout_triggered()
+{
+    AboutWnd aWnd;
+    aWnd.exec();
+}
