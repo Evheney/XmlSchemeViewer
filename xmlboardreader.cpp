@@ -181,7 +181,17 @@ void XmlBoardReader::readPds(){
                             reader.attributes().value("w").toDouble();
                     elem->m_shapeH =
                             reader.attributes().value("h").toDouble();
-                    reader.skipCurrentElement();
+                    const double offsetX = elem->m_roiW / 2.;
+                    const double offsetY = elem->m_roiH / 2.;
+                    while (reader.readNextStartElement()){
+                        if (reader.name() == "pt"){
+                            double xpos = reader.attributes().value("x").toDouble()+offsetX;
+                            double ypos = reader.attributes().value("y").toDouble()+offsetY;
+                            elem->addPoint(xpos,ypos);
+                            reader.skipCurrentElement();
+                        }
+                    }
+//                    reader.skipCurrentElement();
                 }
                 else
                     reader.skipCurrentElement();
