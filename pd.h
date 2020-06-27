@@ -2,6 +2,9 @@
 #define PD_H
 
 #include "QString"
+#include <QList>
+#include <QPointF>
+#include <QVector>
 
 class Pd
 {
@@ -24,6 +27,13 @@ public:
     double m_shapeH;
 
     void print() const;
+
+    QVector<QPointF> points() const;
+    void addPoint(qreal xpos,qreal ypos);
+
+private:
+
+    QVector<QPointF> m_points;
 
 };
 

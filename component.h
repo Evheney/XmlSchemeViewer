@@ -16,6 +16,7 @@ public:
 
     void addPin(qreal x, qreal y, qreal dia);
     void addRect(qreal x, qreal y, qreal w, qreal h, qreal rot);
+    void addPoly(qreal x, qreal y, const QVector<QPointF> &listPts);
     //void setBoardArray()
 
     void setNumber(int n);

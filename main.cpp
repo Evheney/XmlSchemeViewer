@@ -38,6 +38,7 @@ int main(int argc, char *argv[])
     Settings::load();
 
     MainWindow w;
+    w.show();
 
 //    w.addScheme(scheme);
 

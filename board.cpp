@@ -19,7 +19,7 @@ Board::~Board()
     for (ComponentData* item : m_componentDataList)
         delete item;
 
-   // qDebug() << "End Board Destructor";
+    // qDebug() << "End Board Destructor";
 }
 
 void Board::addEpmXrayInfo(const EpmXrayInfo &info)
@@ -64,7 +64,7 @@ void Board::addBoardArray(BoardArray *ba)
 
 void Board::print() const
 {
-   // qDebug() << "Print board infos";
+    // qDebug() << "Print board infos";
     m_info.print();
 
     for(Pd* elem: m_pdList) {
@@ -107,7 +107,7 @@ Component *Board::createComponent(int index)
     }
 
 
-  //  qDebug() << "\nBoard createComponent " << index;
+    //  qDebug() << "\nBoard createComponent " << index;
 
     //if (index < 0 || index >= m_footprintsList.size())
     //    return nullptr;
@@ -157,7 +157,7 @@ Component *Board::createComponent(int index)
     cc->setSize(fpt->bodyWidth()*SCALE, fpt->bodyHeight()*SCALE);
     cc->setRotateAngle(cdata->getRot());
 
-/*
+    /*
     qreal dia = 1.;
     qreal w=0.;
     qreal h=0.;
@@ -198,13 +198,20 @@ Component *Board::createComponent(int index)
             cc->addRect(pin->pinx()*SCALE, pin->piny()*SCALE,
                         pdItem->m_shapeW*SCALE, pdItem->m_shapeH*SCALE, pin->pinrot()+pdItem->m_roiRot);
         }
+        else if (pdItem->m_shapetype == "poly"){
+            QVector<QPointF> listPts;
+            for(auto& item: pdItem->points()) {
+                listPts.append(QPointF(item.x()*SCALE, item.y()*SCALE));
+            }
+            cc->addPoly(pin->pinx()*SCALE, pin->piny()*SCALE,listPts);
+        }
         //else poly {}
     }
 
 
 
     // footprint
-        // pins
+    // pins
     // pd
 
     return cc;

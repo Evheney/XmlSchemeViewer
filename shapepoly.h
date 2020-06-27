@@ -4,17 +4,23 @@
 #include "shape.h"
 
 #include <QList>
+#include <QVector>
 
-class shapepoly : public Shape
+class ShapePoly : public Shape
 {
 public:
-    shapepoly();
+    ShapePoly(qreal x,qreal y,const QVector<QPointF> &listPts);
+
 
 private:
     double polyX; // offset ??
     double polyY;
 
-    QList<QPointF> listPts;
+    QVector<QPointF> m_listPts;
+
+    // Shape interface
+public:
+    QAbstractGraphicsShapeItem *getItem(QGraphicsScene *s, const QPointF &pt) override;
 };
 
 #endif // SHAPEPOLY_H

@@ -1,6 +1,7 @@
 #include "component.h"
 #include "shaperect.h"
 #include "shapecircle.h"
+#include "shapepoly.h"
 #include <QDebug>
 
 Component::Component()
@@ -37,7 +38,14 @@ void Component::addRect(qreal x, qreal y, qreal w, qreal h, qreal rot)
 
     qDebug() <<"Add rect: Offset x"<<offsetx <<"offsety"<<offsety<<"width"<<w<<"height"<<h;
 }
+void Component::addPoly(qreal x, qreal y,const QVector<QPointF> &listPts)
+{
+    Shape*poly = new ShapePoly(x+offsetx,y+offsety,listPts);
+    shapes.append(poly);
 
+    qDebug() <<"Add poly: X"<< x <<"Y"<<y;
+    //qDebug() <<"Add poly: Offset x"<<offsetx <<"offsety"<<offsety;
+}
 QPointF Component::getPoint() const
 {
     return point;
