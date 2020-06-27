@@ -80,3 +80,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resources.qrc
+
+# assign application icon
+win32:RC_ICONS += Iconsmind-Outline-Chip.ico
