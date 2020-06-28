@@ -7,5 +7,6 @@
         <file>icons/icons8-zoom-in-32.png</file>
         <file>icons/icons8-zoom-out-32.png</file>
         <file>icons/icons8-export-32.png</file>
+        <file>Iconsmind-Outline-Chip.ico</file>
     </qresource>
 </RCC>

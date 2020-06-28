@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = XmlSchemeViewer
+TARGET = MySchemeViewer
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -62,6 +62,7 @@ HEADERS += \
         parser.h \
         pd.h \
         rect.h \
+        resources.rc \
         scene.h \
         scheme.h \
         settings.h \
@@ -69,6 +70,7 @@ HEADERS += \
         shapecircle.h \
         shapepoly.h \
         shaperect.h \
+        version.h \
         xmlboardreader.h
 
 FORMS += \
@@ -85,4 +87,6 @@ RESOURCES += \
     resources.qrc
 
 # assign application icon
-win32:RC_ICONS += Iconsmind-Outline-Chip.ico
+win32:RC_FILE = resources.rc
+#win32:RC_ICONS += Iconsmind-Outline-Chip.ico
+
