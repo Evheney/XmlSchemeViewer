@@ -8,7 +8,7 @@ AboutWnd::AboutWnd(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->version->setText(QString("Version ") + VER_PRODUCTVERSION_STR);
-    ui->buildDate->setText(QString("Build ") + __DATE__);
+    ui->buildDate->setText(QString("Built on ") + __DATE__);
 }
 
 AboutWnd::~AboutWnd()

@@ -8,10 +8,13 @@
 #include <QFile>
 #include <QApplication>
 #include <QMessageBox>
+#include "version.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setApplicationName(VER_PRODUCTNAME_STR);
+    a.setApplicationVersion(VER_PRODUCTVERSION_STR);
 
 //    QString fileName("testnk.xml");
 //    QFile file(fileName);
