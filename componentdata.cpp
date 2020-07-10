@@ -78,6 +78,16 @@ void ComponentData::setBlockName(const QString &value)
     blockName = value;
 }
 
+QString ComponentData::getSi() const
+{
+    return si;
+}
+
+void ComponentData::setSi(const QString &value)
+{
+    si = value;
+}
+
 double ComponentData::getRot() const
 {
     return rot;

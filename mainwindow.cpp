@@ -7,6 +7,7 @@
 #include "graphicsview.h"
 #include "boardgroup.h"
 #include "aboutwnd.h"
+#include "componentdata.h"
 
 #include <QDebug>
 #include <QFile>
@@ -206,8 +207,28 @@ void MainWindow::populateTree(QTreeWidgetItem * rootItem, const Component& compo
 */
 }
 
+bool MainWindow::showTopComponents(const Component& component)
+{
+    if (component.getSide()== "T" && Settings::getDisplayTopSide())
+        return true;
+
+    return false;
+}
+
+bool MainWindow::showBottomComponents(const Component& component)
+{
+    return component.getSide() == "B" && Settings::getDisplayBottomSide();
+}
+
 void MainWindow::drawComponent(const Component& component)
 {
+    bool shown = showTopComponents(component) || showBottomComponents(component);
+    if (!shown)
+        return;
+
+//    if (!showTopComponents(component) && !showBottomComponents(component))
+//        return;
+
     QPointF pt = component.getPoint();
     QSizeF sz = component.getSize();
 
@@ -245,6 +266,7 @@ void MainWindow::drawComponent(const Component& component)
         rectItem->setTransformOriginPoint(ptOrg);
         rectItem->setRotation(component.rotateAngle());
     }
+
 }
 
 void MainWindow::drawBoardArrays(const Scheme &scheme)
@@ -333,12 +355,14 @@ void MainWindow::on_actionSettings_triggered()
 
     if (settings.exec() == QDialog::Accepted) {
 
-        Settings::setBoardColor(settings.getBoardColor());
-        Settings::setComponentColor(settings.getComponentColor());
-        Settings::setBackgroundColor(settings.getBackgroundColor());
-        Settings::setSmoothZoom(settings.getSmoothZoom());
+//        Settings::setBoardColor(settings.getBoardColor());
+//        Settings::setComponentColor(settings.getComponentColor());
+//        Settings::setBackgroundColor(settings.getBackgroundColor());
+//        Settings::setSmoothZoom(settings.getSmoothZoom());
+//        Settings::setDisplayTopSide(settings.getDisplayTopSide());
+//        Settings::setDisplayBottomSide(settings.getDisplayBottomSide());
 
-        Settings::save();
+        //Settings::save();
         GraphicsView::setSmoothZoom(Settings::getSmoothZoom());
 
 

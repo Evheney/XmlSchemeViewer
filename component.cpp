@@ -106,6 +106,16 @@ void Component::setBoardArray(const BoardArray &value)
     boardArray = value;
 }
 
+void Component::setSide(const QString &value)
+{
+    side = value;
+}
+
+QString Component::getSide() const
+{
+    return side;
+}
+
 void Component::setNumber(int n) {
     number = n;
 }

@@ -24,6 +24,7 @@ public:
     void setSize(qreal sx, qreal sy);
     void setRealName(const QString &value);
     void setPartName(const QString &value);
+    void setSide(const QString &value);
     void setRotateAngle(double value);
 
     QPointF getPoint() const;
@@ -34,9 +35,12 @@ public:
 
     QString getRealName() const;
     QString getPartName() const;
+    QString getSide() const;
 
     BoardArray getBoardArray() const;
     void setBoardArray(const BoardArray &value);
+
+
 
 
 
@@ -45,7 +49,7 @@ protected:
 
     QString realName; // U1001
     QString partName; // ****-****-****-****
-
+    QString side;// T , B (si)
     int number;
     QPointF point;
     QSizeF size;

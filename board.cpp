@@ -145,6 +145,7 @@ Component *Board::createComponent(int index)
     Component * cc = new Component();
     cc->setPartName(cdata->getPartName());
     cc->setRealName(cdata->getRealName());
+    cc->setSide(cdata->getSi());
     cc->setNumber(0);
 
     if (ba) {

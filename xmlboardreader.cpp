@@ -282,6 +282,7 @@ void XmlBoardReader::readComponentsData()
                             ComponentData * cdata = new ComponentData;
                             cdata->setRealName(reader.attributes().value("name").toString());
                             cdata->setPartName(reader.attributes().value("part").toString());
+                            cdata->setSi(reader.attributes().value("si").toString());
                             cdata->setCenterX(reader.attributes().value("x").toDouble());
                             cdata->setCenterY(reader.attributes().value("y").toDouble());
                             cdata->setRot(reader.attributes().value("rot").toDouble());

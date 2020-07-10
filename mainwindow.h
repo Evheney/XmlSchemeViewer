@@ -27,6 +27,7 @@ public:
     void drawComponent (const Component& component);
     void drawBoardArrays(const Scheme& scheme);
 
+
 private slots:
     void on_actionZoom_In_triggered();
 
@@ -43,6 +44,8 @@ private slots:
     void on_actionQuit_triggered();
 
     void on_actionAbout_triggered();
+    bool showTopComponents(const Component& component);
+    bool showBottomComponents(const Component& component);
 
 private:
     Ui::MainWindow *ui;

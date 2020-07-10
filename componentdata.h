@@ -16,6 +16,7 @@ public:
     double getRot() const;
     QString getRealName() const;
     QString getPartName() const;
+    QString getSi() const;
     int getBoardNumber() const;
     QString getBlockName() const;
 
@@ -24,8 +25,11 @@ public:
     void setRot(double value);
     void setRealName(const QString &value);
     void setPartName(const QString &value);
+    void setSi(const QString &value);
     void setBoardNumber(int value);
     void setBlockName(const QString &value);
+
+
 
 private:
     double centerX;
@@ -34,6 +38,7 @@ private:
 
     QString realName;
     QString partName;
+    QString si;
 
     int boardNumber=0;
     QString blockName;
