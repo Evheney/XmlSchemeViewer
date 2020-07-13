@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "xmlboardreader.h"
 
+#include <QCommandLineParser>
 #include <QDebug>
 #include <QFile>
 #include <QApplication>
@@ -16,41 +17,90 @@ int main(int argc, char *argv[])
     a.setApplicationName(VER_PRODUCTNAME_STR);
     a.setApplicationVersion(VER_PRODUCTVERSION_STR);
 
-//    QString fileName("testnk.xml");
-//    QFile file(fileName);
-//    if(!file.open(QFile::ReadOnly | QFile::Text)){
-//        qDebug() << "Cannot read file " << fileName << ". Error:" << file.errorString();
-
-//        QString messageText = QString("Cannot read the file %1.").arg(fileName);
-//        QString errorText = QString("<b>Error:</b> %2").arg(file.errorString());
-
-//        QMessageBox msgBox;
-//        msgBox.setWindowTitle(a.applicationName());
-//        msgBox.setText(messageText);
-//        msgBox.setInformativeText(errorText);
-//        msgBox.setStandardButtons(QMessageBox::Ok);
-//        msgBox.exec();
-//        return -1;
-//    }
-
-//    Scheme scheme;
-//    XmlBoardReader parser(&scheme);
-//    parser.read(&file);
-//    parser.print();
-
     Settings::load();
 
     MainWindow w;
-    w.show();
+    w.hide();
 
-//    w.addScheme(scheme);
+    QApplication::setApplicationName(VER_PRODUCTNAME_STR);
+    QCoreApplication::setApplicationVersion(VER_PRODUCTVERSION_STR);
 
-    if (QCoreApplication::arguments().size() == 2 ) {
-        QString fileName = QCoreApplication::arguments().at(1);
+    // DECLARING parser and setting default options and positional arguments
+    QCommandLineParser parser;
+    parser.setApplicationDescription(QObject::tr("Viewer and convertor gerber xml files to image."));
+    parser.addPositionalArgument("source.xml", QObject::tr("Input gerber file in xml format."));
+    parser.addPositionalArgument("destination.ext",
+                                 QObject::tr("Output image filename. Extension can be {bmp|png|jpg}."));
+    parser.addHelpOption();
+    parser.addVersionOption();
+
+        // DECLARING options
+        QCommandLineOption componentColorOption(
+                    QStringList() << "c" << "component-color",
+                    QCoreApplication::translate("main", "Specify components color (default is #ffa0abff)."),
+                    QCoreApplication::translate("main", "#AARRGGBB"),
+                    "#ffa0abff");
+        parser.addOption(componentColorOption);
+        QCommandLineOption boardColorOption(
+                    QStringList() << "p" << "board-color",
+                    QCoreApplication::translate("main", "Specify board color (default is #ff400076)."),
+                    QCoreApplication::translate("main", "#AARRGGBB"),
+                    "#ff400076");
+        parser.addOption(boardColorOption);
+        QCommandLineOption backgroundColorOption(
+                    QStringList() << "w" << "background-color",
+                QCoreApplication::translate("main", "Specify background color (default is #ffffffff)."),
+                QCoreApplication::translate("main", "#AARRGGBB"),
+                "#ffffffff");
+    parser.addOption(backgroundColorOption);
+
+
+    QCommandLineOption topOption(QStringList() << "t" << "display-top",
+                                 QObject::tr("Display top layer."));
+    parser.addOption(topOption);
+    QCommandLineOption bottomOption(QStringList() << "b" << "display-bottom",
+                                    QObject::tr("Display bottom layer."));
+    Settings::setDisplayBottomSide(true);
+    parser.addOption(bottomOption);
+
+
+    // PARSING options
+    parser.process(a);
+
+
+    // CHECKING and USING options
+    const QStringList args = parser.positionalArguments();
+    for (auto& a: args)
+        qDebug() << "Arg:" << a;
+
+    bool topConf=parser.isSet(topOption);
+    bool bottomConf = parser.isSet(bottomOption);
+    qDebug() << "Display top:" << topConf;
+    qDebug() << "Display bottom:" << bottomConf;
+
+    QString componentColorConf = parser.value(componentColorOption);
+    Settings::setComponentColor(componentColorConf);
+    QString boardColorConf = parser.value(boardColorOption);
+    Settings::setBoardColor(boardColorConf);
+    QString backgroundColorConf = parser.value(backgroundColorOption);
+    Settings::setBackgroundColor(backgroundColorConf);
+
+
+    if ((topConf && bottomConf) == false) {
+        Settings::setDisplayTopSide(true);
+        Settings::setDisplayBottomSide(true);
+    } else {
+        Settings::setDisplayTopSide(topConf);
+        Settings::setDisplayBottomSide(bottomConf);
+    }
+
+
+    if (args.size() == 1 ) {
+        QString fileName = args.at(0);
         w.openScheme(fileName);
-    } else if (QCoreApplication::arguments().size() > 2) {
-        QString fromFileName = QCoreApplication::arguments().at(1);
-        QString toFileName = QCoreApplication::arguments().at(2);
+    } else if (args.size() == 2) {
+        QString fromFileName = args.at(0);
+        QString toFileName = args.at(1);
         if (w.openScheme(fromFileName)) {
             if (w.exportTo(toFileName)) {
                 QApplication::quit();
